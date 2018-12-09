@@ -6,6 +6,7 @@ use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -14,15 +15,6 @@ class ProductController extends Controller
     {
         return response()->json(['products' => Product::all()],200);
     }  
-
-    public function products_of_catalog(Request $request){
-        if($request->catalog_id==null) $catalog_id=0; else  $catalog_id=$request->catalog_id;
-        if($request->column==null) $column='id'; else $column=$request->column;
-        if($request->order==null) $order='asc'; else $order=$request->order;
-        if($request->per==null) $per=12; else $per=$request->per; 
-        return response()->json(Product::where('catalog_id', $catalog_id)->orderBy($column, $order)->paginate($per),200);        
-    } 
-
 
     public function store(Request $request)
     {
@@ -47,5 +39,30 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         
+    }
+
+    
+    public function products_of_catalog(Request $request){
+        if($request->catalog_id==null) $catalog_id=0; else  $catalog_id=$request->catalog_id;
+        if($request->column==null) $column='id'; else $column=$request->column;
+        if($request->order==null) $order='asc'; else $order=$request->order;
+        if($request->per==null) $per=12; else $per=$request->per; 
+        return response()->json(Product::where('catalog_id', $catalog_id)->orderBy($column, $order)->paginate($per),200);        
+    } 
+
+
+    public function product_for_admin_table(Request $request){
+        // sortBy,  descending,     page,   rowsPerPage
+        $this->validate($request, [
+            'page' => 'numeric',
+            'descending' => 'string',
+            'sortBy' => "string",
+            'rowsPerPage' => 'numeric',
+            ]);
+        $rowsPerPage = $request->rowsPerPage;
+        $column = $request->sortBy;
+        if($request->descending=="true")  $order="asc";
+        else $order="desc";
+        return response()->json(Product::select('id', 'name', 'catalog_id','price')->orderBy($column, $order)->with('catalog')->paginate($rowsPerPage), 200);
     }
 }

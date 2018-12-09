@@ -25,6 +25,7 @@ Route::group(['prefix'=>'v1', 'namespace'=>'Admin' ], function(){
 
     // Тауарлар маршруттары
     Route::get('/product', 'ProductController@index');   // Барлық тауарлар тізімін көрсету
+    Route::get('/product_for_admin_table', 'ProductController@product_for_admin_table'); //Администратор режимінде тауаларды кесте түрінде көрсету (атауы, категори аты,  бағасы)
     Route::get('/products-of-catalog', 'ProductController@products_of_catalog'); //Бір каталог құрамын кіретін тауарлар тізімін шығару
     Route::get('/product/{product}', 'ProductController@show'); // Нақты бір тауарды шығару
     Route::post('/product', 'ProductController@store'); // Тауарды деректер қорына сақтау

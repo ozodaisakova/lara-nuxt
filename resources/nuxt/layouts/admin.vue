@@ -240,7 +240,7 @@ import Preloader from '~/components/loaders/Preloader.vue'
     },
     methods:{
       async getCatalog(){
-        const response = await this.$axios.$get("catalog");
+        const response = await this.$axios.$get(this.$store.state.base_url + "catalog");
         return response;
       },
     }  
