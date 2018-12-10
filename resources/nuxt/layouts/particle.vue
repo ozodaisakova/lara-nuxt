@@ -16,6 +16,7 @@
         :moveSpeed="4"
         :hoverEffect="true"
         hoverMode="grab"
+        type="snow"
         :clickEffect="true"
         clickMode="push"
         class="back">

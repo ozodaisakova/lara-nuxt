@@ -197,6 +197,7 @@
                   :rules="cardNumberRules"
                   outline
                   d-flex
+                  mask="credit-card"
                   label="Номер карты"
                   append-icon="credit_card"
                   class="px-2"

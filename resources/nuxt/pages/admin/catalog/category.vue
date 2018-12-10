@@ -15,7 +15,7 @@
                         @click="dialog=!dialog"
                         small
                         dark
-                        class="blue lighten-1">
+                       color="primary">
                         <v-icon >add</v-icon>
                         добавить                         
                     </v-btn>
@@ -45,14 +45,14 @@
                                 <sub class="red--text" v-if="errorSelect==true">Выберите иконку</sub>  
                                 <v-switch
                                     :label="hiddenText"
-                                    color="indigo darken-3"
+                                    color="primary"
                                     v-model="hidden"></v-switch>
                             </v-card-text>
                             <v-divider></v-divider>
                             <v-card-actions class="pa-3">
                                 <v-spacer></v-spacer>
-                                <v-btn color="blue darken-1" flat @click="dialog=!dialog">Закрыть</v-btn>
-                                <v-btn color="blue darken-1" flat @click="saveItem()">Сохранить</v-btn>
+                                <v-btn color="primary" flat @click="dialog=!dialog">Закрыть</v-btn>
+                                <v-btn color="primary" flat @click="saveItem()">Сохранить</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>                       
@@ -127,15 +127,15 @@
             <sub class="red--text" v-if="errorSelect==true">Выберите иконку</sub>  
             <v-switch
                 :label="editHiddenText"
-                color="indigo darken-3"
+                color="primary"
                 v-model="editHidden"></v-switch>
             <v-spacer></v-spacer>            
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions class="pa-2">
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="editDialog=!editDialog">Закрыть</v-btn>
-            <v-btn color="blue darken-1" flat @click="updateItem()">Обновить</v-btn>
+            <v-btn color="primary" flat @click="editDialog=!editDialog">Закрыть</v-btn>
+            <v-btn color="primary" flat @click="updateItem()">Обновить</v-btn>
         </v-card-actions>
     </v-card>
 </v-dialog>  

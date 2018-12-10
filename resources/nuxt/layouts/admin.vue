@@ -248,9 +248,6 @@ import Preloader from '~/components/loaders/Preloader.vue'
   }
 </script>
 <style scoped>
-.toolbar-back{
-  background-color: red;
-}
 ::-webkit-scrollbar{
     background-color: rgb(219, 217, 217);    
     width:6px;

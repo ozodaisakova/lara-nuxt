@@ -14,16 +14,19 @@
       v-model="drawer"
       fixed
       app>
-      <v-list>
-      <v-toolbar flat class="hidden-sm-and-up ">
-      <v-list >
-        <v-list-tile>
-          <v-list-tile-title class="title">
-            TAK MEBEL
-          </v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-toolbar>
+      <v-img 
+          :aspect-ratio="16/9" 
+          src="img/navigation-drawer.jpg"
+          v-if="drawerPicture==true">
+        <v-layout pa-2 column fill-height class="lightbox white--text">
+          <v-spacer></v-spacer>
+          <v-flex shrink>
+            <div class="title">Tak Mebel</div>
+            <div class="body-1">Мебельная фабрика</div>
+          </v-flex>
+        </v-layout>
+      </v-img>
+      <v-list>      
       <v-subheader>Навигация сайта</v-subheader>
         <v-divider></v-divider>
         <v-list-tile 
@@ -70,7 +73,13 @@
         </div>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed app :clipped-left="clipped" color="primary" dark class="toolbar-back">
+    <v-toolbar 
+      fixed 
+      app 
+      :clipped-left="clipped" 
+      color="primary" 
+      dark 
+      class="toolbar-back">
         <v-btn @click="drawer = !drawer" icon>
           <v-icon>menu</v-icon>
           </v-btn>      
@@ -130,7 +139,7 @@ import {mapState, mapGetters} from "vuex"
 
 
   export default {
-    data () {
+    data() {
       return {
         base_category_link: '',
         clipped: true,
@@ -145,7 +154,12 @@ import {mapState, mapGetters} from "vuex"
         title: 'TAK - MEBEL',
         error_catalog:'',
         error_information: '',
-        cart_count: 0
+        cart_count: 0,
+        windowSize:{
+          x: 0,
+          y: 0
+        },
+        drawerPicture: false
       }
     },
     components:{
@@ -156,6 +170,11 @@ import {mapState, mapGetters} from "vuex"
       if(process.browser){
         if(!localStorage.cart_product_count) localStorage.setItem('cart_product_count', '0');
         this.$store.dispatch('increment_cart', parseInt(localStorage.getItem('cart_product_count')));
+        this.onResize();
+        if(this.windowSize.x < 1260) {
+          this.drawer=false;
+          this.drawerPicture=true;
+        }
       }     
       // this.preloader=true
       Promise.all([this.getCatalog(),  this.getInformation()])
@@ -181,6 +200,9 @@ import {mapState, mapGetters} from "vuex"
       }
     },
     methods:{
+      onResize () {
+        this.windowSize = { x: window.innerWidth, y: window.innerHeight }
+      },
       async getCatalog(){
         const response = await this.$axios.$get(this.$store.getters.base_url+"catalog");
         return response;
@@ -194,9 +216,6 @@ import {mapState, mapGetters} from "vuex"
   }
 </script>
 <style scoped>
-.toolbar-back{
-  background-color: red;
-}
 ::-webkit-scrollbar{
     background-color: rgb(219, 217, 217);    
     width:6px;

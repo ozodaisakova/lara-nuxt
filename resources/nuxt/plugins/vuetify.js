@@ -9,6 +9,7 @@ import VBreadcrumbs from 'vuetify/es5/components/VBreadcrumbs'
 import VBtn from 'vuetify/es5/components/VBtn'
 import VCard from 'vuetify/es5/components/VCard'
 import VCarousel from 'vuetify/es5/components/VCarousel'
+import VCombobox from 'vuetify/es5/components/VCombobox'
 import VDivider from 'vuetify/es5/components/VDivider'
 import VDialog from 'vuetify/es5/components/VDialog'
 import VFooter from 'vuetify/es5/components/VFooter'
@@ -41,6 +42,7 @@ Vue.use(Vuetify, {
     VAlert,
     VBreadcrumbs,
     VDialog,
+    VCombobox,
     VDataTable,
     VForm,
     VTextarea,

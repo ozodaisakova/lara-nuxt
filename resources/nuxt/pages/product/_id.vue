@@ -24,14 +24,12 @@
             <v-flex>
                 <v-carousel  
                     class="product-carousel" 
-                    light
-                    >
+                    light>
                     <v-carousel-item  
                         v-for="(item, i) in images"
                         :key="i"
                         :src="item.image">
-                    </v-carousel-item>
-                    
+                    </v-carousel-item>                    
                 </v-carousel>
             </v-flex>                
         </v-flex>

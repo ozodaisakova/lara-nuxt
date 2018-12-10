@@ -35,7 +35,7 @@ module.exports = laravelNuxt({
     {src: '~plugins/vuetify.js', ssr: true},
     {src: '~plugins/particles.js', ssr: false},
     {src: '~plugins/chart.js', ssr: false},
-    {src: '~plugins/select.js', ssr: false}
+    {src: '~plugins/select.js', ssr: false},
   ],
   css: [
     '~style/app.styl',
