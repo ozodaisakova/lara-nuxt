@@ -373,7 +373,8 @@ export default{
             c_hidden_text: "Видимый",
             c_available: true,
             c_available_text: "Есть в наличии",
-            catalog: []
+            catalog: [],
+            formData: []
         }
     },
     components: {
@@ -421,10 +422,52 @@ export default{
         },
         store(){
             if(this.$refs.createform.validate()){
-                alert(this.c_category.id);
-            }else{
-                alert("NO");
-                console.log(this.c_images)
+                // this.$axios({
+                //     method: "POST",
+                //     url: this.$store.state.base_url+"product",
+                //     data:{
+                //         hello: "hello",
+                //         files: this.c_images
+                //     }
+                // })
+                // .then(response=>{
+                //     console.log(response);
+                // })
+                // .catch(error=>{
+                //     console.log(error);
+                // });  
+                this.$axios.$post(this.$store.state.base_url+"product",{
+                    "myfiles": this.fileList,
+                    hello: "hello",
+                })  
+                .then(response=>{
+                    console.log(response);
+                })
+                .catch(error=>{
+                    console.log(error);
+                });    
+
+
+
+                // this.$axios.$post(this.$store.state.base_url+"product",
+                // {
+                //     name=this.c_name,
+                //     price=this.c_price,
+                //     category_id=this.c_category.id,
+                //     colors=this.c_colors,
+                //     description=this.c_description,
+                //     width=this.c_width,
+                //     height=this.c_height,
+                //     length=this.c_length,
+                //     material=this.c_material,
+                //     complect=this.c_complect,
+                //     compound=this.c_compound,
+                //     images=this.c_images,
+
+                // })
+            }else{    
+                console.log(this.formdata);  
+                console.log("ERROR")
             }
         },
         show(product){
@@ -471,9 +514,10 @@ export default{
             })
         },
         uploadImageSuccess(formData, index, fileList) {
-            console.log('data', formData, index, fileList)
+            console.log('FORMDATA = ', formData,', \n INDEX = ', index, ', \n FILELIST = ',fileList)
             this.c_images_data = fileList;
-            console.log(index);
+            this.formData = formData;
+            // console.log(index);
             console.log(fileList);
             // Upload image api
             // axios.post('http://your-url-upload', { data: formData }).then(response => {

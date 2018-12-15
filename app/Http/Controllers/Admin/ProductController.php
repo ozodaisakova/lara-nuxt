@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Product;
+use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
@@ -18,8 +19,28 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        Product::create($request->all());
-        return response()->json("OK",201);       
+        $this->validate($request,[
+            'myfiles'=>'required',
+            'myfiles.*'=> 'image|mimes:jpeg,png,jpg,gif,svg'
+        ]);
+        $path = base_path()."/public/img/"; 
+        $file = $request->myfiles;
+        $filename=$file->getClientOriginalName();
+        $fileext=$file->getClientOriginalExtension();
+        $file->move($path, "Ramazan");
+        return response()->json($file->extension(),200 );
+
+        // if($request->hasfile('myfiles')){
+        //     foreach($request->file('myfiles') as $image){
+        //         $name = $image->getClientOriginalName();
+        //         $image->move(public_path().'/img/', $name);
+        //         $data[]=$name;
+        //     }
+        // }else{
+        //     return "Fuck you, Almas!";
+        // }
+        // return "Ramazan cool boy!";
+
     }
 
     public function show($product)
