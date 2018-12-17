@@ -1,6 +1,6 @@
 <template>
 <v-flex d-flex xs12 sm4 md3>
-    <v-card class="product-card my-1 mx-1"  >      
+    <v-card class="product-card my-1 mx-1"  ripple>      
         <v-img
             :src="image"
             lazy-src='/image-placeholder.svg'
@@ -17,7 +17,7 @@
             </v-layout>
         </v-img>
         <v-divider></v-divider>
-        <div class="title mt-3 text-capitalize " >
+        <div class="subheading mt-3 mx-1 text-capitalize " >
             <center > <nuxt-link class="cart_name" :to="to_product"> {{product.name}}</nuxt-link>  </center>    
         </div>
         <v-card-text>
@@ -25,7 +25,7 @@
             <center v-if="product.available==1" class="caption " >Есть в наличии</center>
             <center v-else class="caption">Нет в наличии</center>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions class="to-bottom-fix">
             <v-spacer></v-spacer>        
             <v-btn small outline  color="warning" @click="toCart()">В корзину</v-btn>
             <v-btn  small color="error" router :to="`/buy/`+product.id">&#160;&#160;Купить&#160;&#160;</v-btn>
@@ -98,5 +98,9 @@ export default {
     cursor:pointer;
     text-decoration: underline;
     transition: 1.2s ease !important;
+}
+.to-bottom-fix{
+    display: flex;
+    bottom: 0px;
 }
 </style>

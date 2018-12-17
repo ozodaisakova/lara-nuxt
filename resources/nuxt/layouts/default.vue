@@ -16,7 +16,7 @@
       app>
       <v-img 
           :aspect-ratio="16/9" 
-          src="img/navigation-drawer.jpg"
+          src="/img/navigation-drawer.jpg"
           v-if="drawerPicture==true">
         <v-layout pa-2 column fill-height class="lightbox white--text">
           <v-spacer></v-spacer>
@@ -198,6 +198,8 @@ import {mapState, mapGetters} from "vuex"
           return this.$store.getters.cart_count;
         }
       }
+    },
+    watch:{
     },
     methods:{
       onResize () {

@@ -95,7 +95,7 @@
             <v-text-field
                 v-model="c_name"
                 label="Наименование"
-                :counter="30"
+                :counter="50"
                 :rules="c_name_r"
                 hint="Обязательно для  всех видов продукта"
                 required>
@@ -128,22 +128,26 @@
             <v-textarea
                 v-model="c_description"
                 :rules="c_description_r"
-                label="Описание продукта">
+                label="Описание продукта"
+                rows="9">
             </v-textarea> 
         </v-flex>
         <v-flex xs12 sm12 md4 class="pa-3">            
             <v-text-field
                 v-model="c_width"
                 label="Ширина"
+                :rules="c_height_r"
                 hint="Напишите в милиметрах (1 метр = 1000 милиметр)">
             </v-text-field>
             <v-text-field
                 v-model="c_height"
+                :rules="c_height_r"
                 label="Высота"
                 hint="Напишите в милиметрах (1 метр = 1000 милиметр)">
             </v-text-field>
             <v-text-field
                 v-model="c_length"
+                :rules="c_height_r"
                 label="Длина"
                 hint="Напишите в милиметрах (1 метр = 1000 милиметр)">
             </v-text-field>
@@ -162,6 +166,11 @@
                 label="Соединение"
                 hint="Например, болты, стержни">                    
             </v-text-field>
+            <v-text-field
+                v-model="c_karkas"
+                label="Каркас"
+                hint="Кратко опишите как устроен каркас продукта">
+            </v-text-field>
         </v-flex>
         <v-flex xs12 sm12 md4 class="pa-5">
             <vue-upload-multiple-image
@@ -172,6 +181,7 @@
                 :data-images="c_images"
                 dragText="Выберите изображения"
                 browseText="Выбрать"
+                accept="image/jpeg,image/png,image/jpg"
                 primaryText="По умолчанию"
                 markIsPrimaryText="Установить по умолчанию"
                 popupText="Это изображение будет показано по умолчанию"
@@ -187,6 +197,11 @@
                 v-model="c_available"
                 color="primary"
                 :label="c_available_text">
+            </v-switch>
+            <v-switch 
+                v-model="c_recommendation"
+                color="primary"
+                :label="c_recommendation_text">
             </v-switch>
         </v-flex>
     </v-layout>
@@ -344,12 +359,12 @@ export default{
             c_name: "",
             c_name_r:[
                 v => !!v || "Поле наименование обязателен",
-                v => v.length <= 30 || "Длина не должен превышать 30 символов"
+                v => v.length <= 50 || "Длина не должен превышать 50 символов"
             ],
             c_price: "",
             c_price_r: [
                 v =>!!v || "Поле цена продукта обзателен" ,
-                v => /^[0-9]+$/.test(v) || 'Допускаются только цифры'               
+                v => /^[0-9]+$/.test(v) || 'Допускаются только цифры без пробела'               
             ],
             c_category: { name: "Hello", id: 0},
             c_category_items:[
@@ -364,15 +379,24 @@ export default{
             c_images:[],
             c_images_data: [],
             c_height:"",
+            c_height_r: [
+                v => /^[0-9]+$/.test(v) || "Допускаются только цифры без пробела"
+            ],
             c_width:"",
             c_length:"",
             c_material: "",
             c_complect: "",
+            c_karkas: "",
             c_compound:"",
             c_hidden: true,
             c_hidden_text: "Видимый",
+            c_hidden_number: 0,
             c_available: true,
             c_available_text: "Есть в наличии",
+            c_available_number: 1,
+            c_recommendation: false,
+            c_recommendation_text: "Не добавлено в список рекоммендуемых товаров",
+            c_recommendation_number: 0,
             catalog: [],
             formData: []
         }
@@ -392,12 +416,33 @@ export default{
             }
         },
         c_hidden(val){
-            if(val==true) this.c_hidden_text="Видимый";
-            else this.c_hidden_text="Скрытый";
+            if(val==true) {
+                this.c_hidden_text="Видимый";
+                this.c_hidden_number=0;
+            }
+            else {
+                this.c_hidden_text="Скрытый";
+                this.c_hidden_number=1;
+            }
         },
         c_available(val){
-            if(val==true) this.c_available_text="Есть в наличии";
-            else this.c_available_text="Нет в наличии";
+            if(val==true) {
+                this.c_available_text="Есть в наличии";
+                this.c_available_number=0;
+            }
+            else {
+                this.c_available_text="Нет в наличии";
+                this.c_available_number=0;
+            }
+        },
+        c_recommendation(val){
+            if(val==false){
+                this.c_recommendation_text="Не добавлено в список рекмендуемых товаров";
+                this.c_recommendation_number=0;
+            }else{
+                this.c_recommendation_text="Добавлено в список рекомендуемых товаров";
+                this.c_recommendation_number=1;
+            }
         }
 
     },
@@ -422,23 +467,23 @@ export default{
         },
         store(){
             if(this.$refs.createform.validate()){
-                // this.$axios({
-                //     method: "POST",
-                //     url: this.$store.state.base_url+"product",
-                //     data:{
-                //         hello: "hello",
-                //         files: this.c_images
-                //     }
-                // })
-                // .then(response=>{
-                //     console.log(response);
-                // })
-                // .catch(error=>{
-                //     console.log(error);
-                // });  
                 this.$axios.$post(this.$store.state.base_url+"product",{
-                    "myfiles": this.fileList,
-                    hello: "hello",
+                    "name": this.c_name,
+                    "catalog_id": this.c_category.id,
+                    "price": this.c_price,
+                    "description": this.c_description,
+                    "width": this.c_width,
+                    "height": this.c_height,
+                    "length": this.c_length,
+                    "material": this.c_material,
+                    "complect": this.c_complect,
+                    "karkas": this.c_karkas,
+                    "compound": this.c_compound,
+                    "recommendation": this.c_recommendation_number,
+                    "hidden": this.c_hidden_number,
+                    "available": this.c_available_number,
+                    "images": this.c_images_data,
+                    "colors": this.c_colors
                 })  
                 .then(response=>{
                     console.log(response);
@@ -446,28 +491,8 @@ export default{
                 .catch(error=>{
                     console.log(error);
                 });    
-
-
-
-                // this.$axios.$post(this.$store.state.base_url+"product",
-                // {
-                //     name=this.c_name,
-                //     price=this.c_price,
-                //     category_id=this.c_category.id,
-                //     colors=this.c_colors,
-                //     description=this.c_description,
-                //     width=this.c_width,
-                //     height=this.c_height,
-                //     length=this.c_length,
-                //     material=this.c_material,
-                //     complect=this.c_complect,
-                //     compound=this.c_compound,
-                //     images=this.c_images,
-
-                // })
             }else{    
-                console.log(this.formdata);  
-                console.log("ERROR")
+               alert(this.c_category.id);
             }
         },
         show(product){
@@ -517,12 +542,7 @@ export default{
             console.log('FORMDATA = ', formData,', \n INDEX = ', index, ', \n FILELIST = ',fileList)
             this.c_images_data = fileList;
             this.formData = formData;
-            // console.log(index);
             console.log(fileList);
-            // Upload image api
-            // axios.post('http://your-url-upload', { data: formData }).then(response => {
-            //   console.log(response)
-            // })
         },
         beforeRemove (index, done, fileList) {
             console.log('index', index, fileList)

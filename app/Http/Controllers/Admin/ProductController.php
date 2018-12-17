@@ -19,28 +19,65 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'myfiles'=>'required',
-            'myfiles.*'=> 'image|mimes:jpeg,png,jpg,gif,svg'
+        // Массивтерді хабарлау
+        $colors = array();
+        $images = array();
+        
+        // Міндетті түрде қажетті ақпараттардың барын тексеру
+        $this->validate($request, [
+            'name' => 'required',
+            'price' => 'required',
+            'catalog_id' => 'required',
+            'description' => 'required'
         ]);
-        $path = base_path()."/public/img/"; 
-        $file = $request->myfiles;
-        $filename=$file->getClientOriginalName();
-        $fileext=$file->getClientOriginalExtension();
-        $file->move($path, "Ramazan");
-        return response()->json($file->extension(),200 );
 
-        // if($request->hasfile('myfiles')){
-        //     foreach($request->file('myfiles') as $image){
-        //         $name = $image->getClientOriginalName();
-        //         $image->move(public_path().'/img/', $name);
-        //         $data[]=$name;
-        //     }
-        // }else{
-        //     return "Fuck you, Almas!";
-        // }
-        // return "Ramazan cool boy!";
+        // Тауарлардың түстерін деректер қорына json форматта жолдық тип ретінде сақтайды
+        foreach($request->colors as $color){
+            $json_color  = '{"color":"'.$color.'"}';
+            array_push($colors, $json_color);         
+        }
+        $colors_string =  "[".implode(",", $colors)."]";
 
+        // Суреттерді base_url/img/uploads/product папкасында сақтау және 
+        // деректер қорына файл  аттарын json форматта жолдық тип ретінде сақтайды
+        foreach($request->images as $file){
+            $exploded = explode(',' , $file['path']);
+            $decoded = base64_decode($exploded[1]);
+            if(str_contains($exploded[0], 'jpeg')){
+                $extencion = 'jpg';
+            }else{
+                $extencion = 'png';
+            }
+            $filename = str_random(45).'.'.$extencion;
+            $path = public_path().'/img/uploads/product/'.$filename;
+            file_put_contents($path, $decoded);
+            $json_image = '{"image":"/img/uploads/product/'.$filename.'"}';
+            // $json_image = "{'image':'/img/uploads/product/".$filename."'}";
+            array_push($images, $json_image);
+        }
+        $images_string ="[".implode(",", $images)."]";
+        
+        // Деректер қорына ақпараттарды сақтау
+        $product = new Product;
+
+        $product->name = $request->name;
+        $product->catalog_id = $request->catalog_id;
+        $product->price = $request->price;
+        $product->colors = $colors_string;
+        $product->description = $request->description;
+        $product->width = $request->width;
+        $product->height = $request->height;
+        $product->length = $request->length;
+        $product->material = $request->material;
+        $product->complect = $request->complect;
+        $product->karkas = $request->karkas;
+        $product->images = $images_string;
+        $product->compound = $request->compound;
+        $product->recommendation = $request->recommendation;
+        $product->hidden = $request->hidden;
+        $product->available = $request->available;
+
+        $product->save();
     }
 
     public function show($product)
