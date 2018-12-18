@@ -1,5 +1,5 @@
 <template>
-<div>
+<v-card class="pa-4">
 <v-breadcrumbs :items="items" divider="/"></v-breadcrumbs>
 <v-layout row wrap>    
     <panel-card 
@@ -12,7 +12,6 @@
     </panel-card>    
 </v-layout>  
 <h2 class="title my-4">Статистика продаж</h2>
-
   <v-card class="pa-1">
     <header>
       <chartjs-line 
@@ -25,7 +24,7 @@
         v-bind:bind="true"/>
     </header>
   </v-card>
-</div>
+</v-card>
 </template>
 <script>
 import PanelCard from '~/components/admin/PanelCard.vue'

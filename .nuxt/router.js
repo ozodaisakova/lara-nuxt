@@ -12,13 +12,14 @@ const _9cb93648 = () => import('..\\resources\\nuxt\\pages\\catalog\\index.vue' 
 const _6bec9ab4 = () => import('..\\resources\\nuxt\\pages\\admin\\index.vue' /* webpackChunkName: "pages_admin_index" */).then(m => m.default || m)
 const _247b0462 = () => import('..\\resources\\nuxt\\pages\\buy\\index.vue' /* webpackChunkName: "pages_buy_index" */).then(m => m.default || m)
 const _d65ddf12 = () => import('..\\resources\\nuxt\\pages\\auth\\index.vue' /* webpackChunkName: "pages_auth_index" */).then(m => m.default || m)
-const _4b552fa9 = () => import('..\\resources\\nuxt\\pages\\auth\\dashboard\\index.vue' /* webpackChunkName: "pages_auth_dashboard_index" */).then(m => m.default || m)
-const _d3c134f6 = () => import('..\\resources\\nuxt\\pages\\auth\\contact.vue' /* webpackChunkName: "pages_auth_contact" */).then(m => m.default || m)
-const _40e8e634 = () => import('..\\resources\\nuxt\\pages\\auth\\register\\index.vue' /* webpackChunkName: "pages_auth_register_index" */).then(m => m.default || m)
-const _eae372ac = () => import('..\\resources\\nuxt\\pages\\admin\\panel\\index.vue' /* webpackChunkName: "pages_admin_panel_index" */).then(m => m.default || m)
 const _03bdb598 = () => import('..\\resources\\nuxt\\pages\\auth\\login\\index.vue' /* webpackChunkName: "pages_auth_login_index" */).then(m => m.default || m)
-const _ef34915c = () => import('..\\resources\\nuxt\\pages\\admin\\catalog\\product.vue' /* webpackChunkName: "pages_admin_catalog_product" */).then(m => m.default || m)
+const _40e8e634 = () => import('..\\resources\\nuxt\\pages\\auth\\register\\index.vue' /* webpackChunkName: "pages_auth_register_index" */).then(m => m.default || m)
+const _d3c134f6 = () => import('..\\resources\\nuxt\\pages\\auth\\contact.vue' /* webpackChunkName: "pages_auth_contact" */).then(m => m.default || m)
+const _4b552fa9 = () => import('..\\resources\\nuxt\\pages\\auth\\dashboard\\index.vue' /* webpackChunkName: "pages_auth_dashboard_index" */).then(m => m.default || m)
+const _bc62aa50 = () => import('..\\resources\\nuxt\\pages\\admin\\panel.vue' /* webpackChunkName: "pages_admin_panel" */).then(m => m.default || m)
 const _63e062ab = () => import('..\\resources\\nuxt\\pages\\admin\\catalog\\category.vue' /* webpackChunkName: "pages_admin_catalog_category" */).then(m => m.default || m)
+const _54a5c5d1 = () => import('..\\resources\\nuxt\\pages\\admin\\information\\add.vue' /* webpackChunkName: "pages_admin_information_add" */).then(m => m.default || m)
+const _ef34915c = () => import('..\\resources\\nuxt\\pages\\admin\\catalog\\product.vue' /* webpackChunkName: "pages_admin_catalog_product" */).then(m => m.default || m)
 const _3823a7f7 = () => import('..\\resources\\nuxt\\pages\\buy\\_id.vue' /* webpackChunkName: "pages_buy__id" */).then(m => m.default || m)
 const _45862378 = () => import('..\\resources\\nuxt\\pages\\catalog\\_id.vue' /* webpackChunkName: "pages_catalog__id" */).then(m => m.default || m)
 const _5dac922e = () => import('..\\resources\\nuxt\\pages\\product\\_id.vue' /* webpackChunkName: "pages_product__id" */).then(m => m.default || m)
@@ -128,14 +129,9 @@ export function createRouter () {
 			name: "auth"
 		},
 		{
-			path: "/auth/dashboard",
-			component: _4b552fa9,
-			name: "auth-dashboard"
-		},
-		{
-			path: "/auth/contact",
-			component: _d3c134f6,
-			name: "auth-contact"
+			path: "/auth/login",
+			component: _03bdb598,
+			name: "auth-login"
 		},
 		{
 			path: "/auth/register",
@@ -143,24 +139,34 @@ export function createRouter () {
 			name: "auth-register"
 		},
 		{
+			path: "/auth/contact",
+			component: _d3c134f6,
+			name: "auth-contact"
+		},
+		{
+			path: "/auth/dashboard",
+			component: _4b552fa9,
+			name: "auth-dashboard"
+		},
+		{
 			path: "/admin/panel",
-			component: _eae372ac,
+			component: _bc62aa50,
 			name: "admin-panel"
-		},
-		{
-			path: "/auth/login",
-			component: _03bdb598,
-			name: "auth-login"
-		},
-		{
-			path: "/admin/catalog/product",
-			component: _ef34915c,
-			name: "admin-catalog-product"
 		},
 		{
 			path: "/admin/catalog/category",
 			component: _63e062ab,
 			name: "admin-catalog-category"
+		},
+		{
+			path: "/admin/information/add",
+			component: _54a5c5d1,
+			name: "admin-information-add"
+		},
+		{
+			path: "/admin/catalog/product",
+			component: _ef34915c,
+			name: "admin-catalog-product"
 		},
 		{
 			path: "/buy/:id",

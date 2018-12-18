@@ -1,5 +1,5 @@
 <template>
-<div>
+<v-card class="pa-4">
     <v-breadcrumbs :items="for_breadcrumd" divider="/"></v-breadcrumbs>
     <v-card class="pa-2">
         <v-layout
@@ -286,6 +286,34 @@
         </v-card-actions>
     </v-card>
 </v-dialog>
+<v-dialog 
+    v-model="deleteDialog"
+    max-width="500"
+    >
+    <v-card>
+    <v-card-title><h1 class="title">Потвердите действие</h1></v-card-title>
+    <v-divider></v-divider>
+    <v-card-text>
+        Вы действительно хотите удалить продукт "<b>{{deletedItem.name}}</b>" ?
+    </v-card-text>
+    <v-divider></v-divider>
+    <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn 
+            flat 
+            color="green lighten-1"
+            @click="destroyItem()">
+            Да
+            </v-btn>
+        <v-btn 
+            flat 
+            @click="deleteDialog=!deleteDialog"
+            color="green lighten-1">
+            Нет
+            </v-btn>
+    </v-card-actions>
+    </v-card>
+</v-dialog> 
 <v-snackbar
     top
     v-model="snackbar"
@@ -296,8 +324,32 @@
         flat
         small
         @click="snackbar = false">Закрыть</v-btn>
-</v-snackbar>     
-</div>
+</v-snackbar> 
+<v-dialog
+    v-model="errorDialog"
+    width="500px">
+    <v-card>
+        <v-card-title
+            class="headline red--text lighten-1"
+            primary-title>
+            Ошибка
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text>
+            <h1 class="display-1 font-weight-bold text-xs-center">Ошибка {{requestErrorStatus}}</h1>
+            <p  class="title text-xs-center">{{requestErrorText}}</p>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions class="pa-3">
+            <v-spacer></v-spacer>
+            <v-btn 
+                color="primary"
+                flat
+                @click="errorDialog=!errorDialog">Закрыть</v-btn>
+        </v-card-actions>
+    </v-card>
+</v-dialog>     
+</v-card>
 </template>
 <script>
 import VueUploadMultipleImage from 'vue-upload-multiple-image'
@@ -421,6 +473,11 @@ export default{
             loadingDialog: false,
             snackbar: false,
             string_base:"",
+            deletedItem:[],
+            deleteDialog:false,
+             errorDialog: false,
+            requestErrorStatus:'',
+            requestErrorText: '',
         }
     },
     components: {
@@ -461,7 +518,7 @@ export default{
         c_available(val){
             if(val==true) {
                 this.c_available_text="Есть в наличии";
-                this.c_available_number=0;
+                this.c_available_number=1;
             }
             else {
                 this.c_available_text="Нет в наличии";
@@ -469,12 +526,12 @@ export default{
             }
         },
         c_recommendation(val){
-            if(val==false){
-                this.c_recommendation_text="Не добавлено в список рекмендуемых товаров";
-                this.c_recommendation_number=0;
-            }else{
+            if(val==true){
                 this.c_recommendation_text="Добавлено в список рекомендуемых товаров";
                 this.c_recommendation_number=1;
+                }else{
+                this.c_recommendation_text="Не добавлено в список рекмендуемых товаров";
+                this.c_recommendation_number=0;
             }
         }
 
@@ -544,9 +601,15 @@ export default{
                             this.c_available=false;
                             this.c_available_number=0;
                         }
-                        if(response[0].recommendation==0) this.c_recommendation=true;
-                        else this.c_recommendation=false;
-                        this.c_recommendation=response[0].recommendation;                
+                        if(response[0].recommendation==0) 
+                        {
+                            this.c_recommendation=false;
+                            this.c_recommendation_number=0;
+                        }
+                        else {
+                            this.c_recommendation=true;
+                            this.c_recommendation_number=1;
+                            }
                         var images=[];
                         var im =[];
                         var json_images=JSON.parse(response[0].images);
@@ -609,8 +672,9 @@ export default{
                 })
                 .catch(error=>{
                     this.loadingDialog=false;
-                    alert("Error");
-                    console.log(error);
+                    this.errorDialog = true;
+                    this.requestErrorStatus =error.status;
+                    this.requestErrorText=error.data+error.message;
                 });    
             }else{    
                alert(this.c_category.id);
@@ -656,16 +720,43 @@ export default{
                 })
                 .catch(error=>{
                     this.loadingDialog=false;
-                    alert("Error");
-                    console.log(error);
+                   this.errorDialog = true;
+                    this.requestErrorStatus =error.status;
+                    this.requestErrorText=error.data+error.message;
                 });    
             }else{    
-               alert(this.c_category.id);
-            }
+                }
 
         },
-        del(){
+        del(item){
+            this.deletedItem = item;
+            this.deleteDialog=true;
+        },
+        destroyItem(){
+            var id = this.deletedItem.id;
+            this.$axios.$delete(this.$store.getters.base_url+'product/'+id)
+                .then(response=>{
 
+                    this.deleteDialog = false;
+                     Promise.resolve(this.getProducts(this.pagination.rowsPerPage, this.pagination.page, this.pagination.sortBy, this.pagination.descending))
+                            .then(response=>{
+                                    this.products = response.data;                
+                                    this.pagination.totalItems = response.total; 
+                                    console.log(response)
+                                    this.getSuccess = false;               
+                                })
+                                .catch(error=>{
+                                    console.log(error);
+                                    this.getSuccess = false;
+                                }); 
+                    this.snackbar=true;
+                })
+                .catch(error=>{
+                    this.deleteDialog = false;
+                    this.errorDialog = true;
+                    this.requestErrorStatus =error.status;
+                    this.requestErrorText=error.data+error.message;
+                });
         },
         getCatalog(){
             this.$axios.$get(this.$store.state.base_url+"catalog")
@@ -686,21 +777,21 @@ export default{
             return response;
         },
         uploadImageSuccess(formData, index, fileList) {
-            console.log('FORMDATA = ', formData,', \n INDEX = ', index, ', \n FILELIST = ',fileList)
             this.c_images_data = fileList;
             this.formData = formData;
-            console.log(fileList);
         },
         beforeRemove (index, done, fileList) {
-            console.log('index', index, fileList)
             var r = confirm("Удалить изображение")
             if (r == true) {
-                done()
+                done();
+                this.c_images_data = fileList;
+                console.log(this.c_images_data);
             } else {
             }
         },
         editImage (formData, index, fileList) {
-            console.log('edit data', formData, index, fileList)
+             this.c_images_data = fileList;
+            this.formData = formData;
         },
         dataChange (data) {
             console.log(data)

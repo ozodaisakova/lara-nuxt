@@ -36,6 +36,7 @@ module.exports = laravelNuxt({
     {src: '~plugins/particles.js', ssr: false},
     {src: '~plugins/chart.js', ssr: false},
     {src: '~plugins/select.js', ssr: false},
+    {src: '~plugins/editor.js', ssr: false},
   ],
   css: [
     '~style/app.styl',

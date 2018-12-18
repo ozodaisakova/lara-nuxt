@@ -28,7 +28,7 @@ class CreateProductsTable extends Migration
             $table->text('karkas')->nullable();
             $table->text('images')->nullable();
             $table->text('compound')->nullable();
-            $table->text('recommendation')->nullable();
+            $table->integer('recommendation')->nullable();
             $table->tinyInteger('hidden')->default(0);
             $table->tinyInteger('available')->default(1);
             $table->timestamps();

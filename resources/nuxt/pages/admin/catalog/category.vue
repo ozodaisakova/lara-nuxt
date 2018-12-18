@@ -1,5 +1,5 @@
 <template>
-<div>
+<v-card class="pa-4">
     <v-breadcrumbs :items="for_breadcrumd" divider="/"></v-breadcrumbs>
     <v-card class="pa-2">
          <v-layout
@@ -202,7 +202,7 @@
         small
         @click="snackbar = false">Закрыть</v-btn>
 </v-snackbar>     
-</div>
+</v-card>
 </template>
 <script>
 import StoreBreadCrumbs from '~/components/StoreBreadCrumbs.vue'

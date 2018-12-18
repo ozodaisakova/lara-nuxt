@@ -46,14 +46,11 @@ export default {
       ]
     }),
     layout: 'particle',
-
 }
 </script>
 <style>
 .ozi-box{
   border-radius: 10px;
   box-shadow: 11px 10px 16px 1px rgba(0, 0, 0, 0.16);
-
 }
 </style>
-

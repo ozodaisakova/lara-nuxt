@@ -92,7 +92,6 @@ class ProductController extends Controller
     public function update(Request $request, Product $p)
     {
         $product = Product::find($request->id);
-        return $request;
 
         $js_img = json_decode($product->images);
         foreach($js_img as $image){
@@ -158,12 +157,15 @@ class ProductController extends Controller
         $product->available = $request->available;
 
         $product->save();
+        return $request;
     
     }
 
 
     public function destroy(Product $product)
     {
+        $product->delete();
+        return response()->json("OK",200);
         
     }
 

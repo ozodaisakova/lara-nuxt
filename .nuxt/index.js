@@ -17,6 +17,7 @@ import nuxt_plugin_vuetify_512965c0 from 'nuxt_plugin_vuetify_512965c0' // Sourc
 import nuxt_plugin_particles_db7b4cfe from 'nuxt_plugin_particles_db7b4cfe' // Source: ..\\resources\\nuxt\\plugins\\particles.js (ssr: false)
 import nuxt_plugin_chart_49704e30 from 'nuxt_plugin_chart_49704e30' // Source: ..\\resources\\nuxt\\plugins\\chart.js (ssr: false)
 import nuxt_plugin_select_2021cd84 from 'nuxt_plugin_select_2021cd84' // Source: ..\\resources\\nuxt\\plugins\\select.js (ssr: false)
+import nuxt_plugin_editor_1810bf73 from 'nuxt_plugin_editor_1810bf73' // Source: ..\\resources\\nuxt\\plugins\\editor.js (ssr: false)
 
 
 // Component: <no-ssr>
@@ -162,6 +163,7 @@ async function createApp (ssrContext) {
     if (typeof nuxt_plugin_particles_db7b4cfe === 'function') await nuxt_plugin_particles_db7b4cfe(app.context, inject)
     if (typeof nuxt_plugin_chart_49704e30 === 'function') await nuxt_plugin_chart_49704e30(app.context, inject)
     if (typeof nuxt_plugin_select_2021cd84 === 'function') await nuxt_plugin_select_2021cd84(app.context, inject)
+    if (typeof nuxt_plugin_editor_1810bf73 === 'function') await nuxt_plugin_editor_1810bf73(app.context, inject)
   }
 
   // If server-side, wait for async component to be resolved first
