@@ -12,7 +12,7 @@
                 </v-flex>
                 <v-flex xs6 sm6 md4 class="text-xs-right">
                     <v-btn
-                        @click="create()"
+                        @click="create('create', null)"
                         small
                         dark
                         color="primary">
@@ -58,7 +58,7 @@
                         <v-icon
                             slot="activator"
                             class="edit_hover"
-                            @click="edit(props.item)">
+                            @click="create('edit',props.item)">
                             edit
                         </v-icon>
                         <span>Редактировать</span>
@@ -77,16 +77,33 @@
             </template>
          </v-data-table>
     </v-card>
-<v-dialog v-model="createDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+<v-dialog 
+    v-model="createDialog" 
+    fullscreen 
+    hide-overlay 
+    transition="dialog-bottom-transition">
     <v-card>
     <v-toolbar dark color="primary">
         <v-btn icon dark @click="createDialog = false">
         <v-icon>close</v-icon>
         </v-btn>
-        <v-toolbar-title>Добавить новый продукт</v-toolbar-title>
+        <v-toolbar-title>{{ action_title  }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-        <v-btn dark flat @click="store()">Сохранить</v-btn>
+        <v-btn 
+            v-if="action_type=='create'"
+            dark 
+            flat 
+            @click="store()">
+            Сохранить
+        </v-btn>
+        <v-btn 
+            v-else
+            dark 
+            flat 
+            @click="update()">
+            Обновить
+        </v-btn>
         </v-toolbar-items>
     </v-toolbar>  
     <v-form ref="createform">  
@@ -207,6 +224,24 @@
     </v-layout>
     </v-form>
     </v-card>
+<v-dialog
+      v-model="loadingDialog"
+      hide-overlay
+      persistent
+      width="300">
+    <v-card
+    color="primary"
+    dark>
+        <v-card-text>
+            Пожалуйста, подаждите....
+            <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+            ></v-progress-linear>
+        </v-card-text>
+    </v-card>
+</v-dialog>
 </v-dialog>
 <v-dialog v-model="openShowDialog"
     width="500px"
@@ -237,37 +272,7 @@
             <b>Соединение:</b><span>&#160;&#160;&#160; {{product.compound}}</span><br>
             <b>Рекомендация:</b><span>&#160;&#160;&#160; {{product.recommendation}}</span><br>
             <b>Видимость:</b><span>&#160;&#160;&#160; {{product.hidden}}</span><br>
-            <b>Наличие:</b><span>&#160;&#160;&#160; {{product.available}}</span><br>
-            <b>Картинки:</b>
-            <v-layout>
-            <v-flex xs12 sm6 offset-sm3>
-            <v-card>
-                <v-container grid-list-sm fluid>
-                <v-layout row wrap>
-                    <v-flex
-                        v-for="(item, i) in images"
-                        :key="i">
-                    <v-card flat tile class="d-flex">
-                        <v-img
-                        :src="item.image"
-                        aspect-ratio="1"
-                        class="grey lighten-2">
-                        <v-layout
-                            slot="placeholder"
-                            fill-height
-                            align-center
-                            justify-center
-                            ma-0>
-                            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                        </v-layout>
-                        </v-img>
-                    </v-card>
-                    </v-flex>
-                </v-layout>
-                </v-container>
-            </v-card>
-            </v-flex>
-        </v-layout>                  
+            <b>Наличие:</b><span>&#160;&#160;&#160; {{product.available}}</span><br>               
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -275,12 +280,23 @@
             <v-btn 
                 color="primary"
                 flat
-                @click = "openShowDialog=!openShowDialog">
+                @click = "closeShowDialog()">
                 Закрыть
             </v-btn>
         </v-card-actions>
     </v-card>
 </v-dialog>
+<v-snackbar
+    top
+    v-model="snackbar"
+    class="text-xs-center">
+        Ваша операция успешно завершена!
+    <v-btn
+        color="pink"
+        flat
+        small
+        @click="snackbar = false">Закрыть</v-btn>
+</v-snackbar>     
 </div>
 </template>
 <script>
@@ -328,9 +344,9 @@ export default{
             },
             openShowDialog: false,
             product: {
-                id:3,
+                id:0,
                 name:"",
-                catalog_id:1,
+                catalog_id:0,
                 price:23114,
                 colors:[
                     {color: ""}
@@ -343,23 +359,24 @@ export default{
                 height:920,
                 length:400,
                 material:"",
-                complect:null,
+                complect:"",
                 karkas:"",
                 images:[
                     {image: ""}
                 ],
-                compound:null,
-                recommendation:null,
+                compound:"",
+                recommendation:0,
                 hidden:0,
                 available:1
             },
             images: [],
             colors: [],
             createDialog: false,
+            c_id: 0,
             c_name: "",
             c_name_r:[
                 v => !!v || "Поле наименование обязателен",
-                v => v.length <= 50 || "Длина не должен превышать 50 символов"
+                v => (v && v.length <= 50) || "Длина не должен превышать 50 символов"
             ],
             c_price: "",
             c_price_r: [
@@ -380,7 +397,7 @@ export default{
             c_images_data: [],
             c_height:"",
             c_height_r: [
-                v => /^[0-9]+$/.test(v) || "Допускаются только цифры без пробела"
+                
             ],
             c_width:"",
             c_length:"",
@@ -398,7 +415,12 @@ export default{
             c_recommendation_text: "Не добавлено в список рекоммендуемых товаров",
             c_recommendation_number: 0,
             catalog: [],
-            formData: []
+            formData: [],
+            action_title: "Создать новый продукт",
+            action_type: 'create',
+            loadingDialog: false,
+            snackbar: false,
+            string_base:"",
         }
     },
     components: {
@@ -407,7 +429,18 @@ export default{
     watch:{
         pagination: {
             handler(){
-                this.getProducts(this.pagination.rowsPerPage, this.pagination.page, this.pagination.sortBy, this.pagination.descending);
+                this.getSuccess = true;
+                 Promise.resolve(this.getProducts(this.pagination.rowsPerPage, this.pagination.page, this.pagination.sortBy, this.pagination.descending))
+                .then(response=>{
+                        this.products = response.data;                
+                        this.pagination.totalItems = response.total; 
+                        console.log(response)
+                        this.getSuccess = false;               
+                    })
+                .catch(error=>{
+                    console.log(error);
+                    this.getSuccess = false;
+                });   
             }
         },
         c_colors(val){
@@ -457,16 +490,98 @@ export default{
         }
 
     },
-    mounted(){
-        this.getProducts(this.pagination.rowsPerPage, this.pagination.page, this.pagination.sortBy, this.pagination.descending);
+    mounted(){    
+        Promise.resolve(this.getProducts(this.pagination.rowsPerPage, this.pagination.page, this.pagination.sortBy, this.pagination.descending))
+         .then(response=>{
+                this.products = response.data;                
+                this.pagination.totalItems = response.total; 
+                console.log(response)
+                this.getSuccess = false;               
+            })
+            .catch(error=>{
+                console.log(error);
+                this.getSuccess = false;
+            });   
     },
     methods:{
-        create(){
-            this.createDialog=true;
+        create(tip, item){
             this.getCatalog();
+            if(tip=='create'){
+                this.action_type='create';
+                this.action_title="Добавить новый продукт";
+                this.createDialog=true;
+                this.c_images=[];
+                this.$refs.createform.reset();
+            }else if(tip=='edit'){
+                this.c_images=[];
+                this.$refs.createform.reset();
+                this.loadingDialog=true;
+                this.action_type='edit';  
+                this.action_title="Обновить данные";   
+                Promise.resolve(this.getProduct(item.id))
+                .then(response=>{
+                        this.c_id=response[0].id;         
+                        this.c_name=response[0].name;
+                        this.c_category=response[0].catalog_id;
+                        console.log(this.c_category);
+                        this.c_price=response[0].price;
+                        this.c_description=response[0].description;
+                        this.c_height=response[0].height;
+                        this.c_width=response[0].width;
+                        this.c_length=response[0].length;
+                        this.c_material=response[0].material;
+                        this.c_complect=response[0].complect;
+                        this.c_compound=response[0].compound;
+                        this.c_karkas=response[0].karkas;
+                        if(response[0].hidden==0) this.c_hidden=true;
+                        else this.c_hidden=false;
+                        if(response[0].available==1) 
+                        {
+                            this.c_available=true;
+                            this.c_available_number=1;
+                        }
+                        else {
+                            this.c_available=false;
+                            this.c_available_number=0;
+                        }
+                        if(response[0].recommendation==0) this.c_recommendation=true;
+                        else this.c_recommendation=false;
+                        this.c_recommendation=response[0].recommendation;                
+                        var images=[];
+                        var im =[];
+                        var json_images=JSON.parse(response[0].images);
+                        if(json_images!=null){
+                            json_images.forEach(element=>{   
+                                this.getBase64Image(element.image, function(myBase64) {
+                                    im ={
+                                        "path" : myBase64,
+                                        "caption" : ""
+                                        }    
+                                        images.push(im);
+                                });
+                            });
+                            this.c_images=images;
+                        }
+                        var colors=[];
+                        var json_colors = JSON.parse(response[0].colors);
+                        if(json_colors!=null){
+                            json_colors.forEach(element => {
+                                colors.push(element.color);                            
+                            }); 
+                            this.c_colors=colors;   
+                        }  
+                        this.loadingDialog=false;                      
+                })                               
+                this.createDialog=true;  
+            }else{
+                this.action_type='unknown';
+                alert("Error!");
+            }
+            
         },
         store(){
             if(this.$refs.createform.validate()){
+                this.loadingDialog=true;                
                 this.$axios.$post(this.$store.state.base_url+"product",{
                     "name": this.c_name,
                     "catalog_id": this.c_category.id,
@@ -486,20 +601,67 @@ export default{
                     "colors": this.c_colors
                 })  
                 .then(response=>{
+                    this.loadingDialog=false;                    
+                    this.snackbar=true;
+                    this.c_images=[];
+                    this.$refs.createform.reset();
                     console.log(response);
                 })
                 .catch(error=>{
+                    this.loadingDialog=false;
+                    alert("Error");
                     console.log(error);
                 });    
             }else{    
                alert(this.c_category.id);
             }
         },
-        show(product){
+        show(product){            
+            this.product=product;
+            this.colors=JSON.parse(product.colors);
             this.openShowDialog=true;
-            this.getProduct(product.id);
         },
-        edit(){
+        closeShowDialog(){
+            this.openShowDialog=false;
+        },
+        update(){
+            if(this.$refs.createform.validate()){
+                this.loadingDialog=true;
+                this.$axios.$put(this.$store.state.base_url+"product/"+this.c_id,{
+                    "id": this.c_id,
+                    "name": this.c_name,
+                    "catalog_id": this.c_category,
+                    "price": this.c_price,
+                    "description": this.c_description,
+                    "width": this.c_width,
+                    "height": this.c_height,
+                    "length": this.c_length,
+                    "material": this.c_material,
+                    "complect": this.c_complect,
+                    "karkas": this.c_karkas,
+                    "compound": this.c_compound,
+                    "recommendation": this.c_recommendation_number,
+                    "hidden": this.c_hidden_number,
+                    "available": this.c_available_number,
+                    "images": this.c_images_data,
+                    "colors": this.c_colors
+                })  
+                .then(response=>{
+                    this.loadingDialog=false;
+                    this.snackbar=true;
+                    this.c_images=[];
+                    this.createDialog=false;
+                    this.$refs.createform.reset();
+                    console.log(response);
+                })
+                .catch(error=>{
+                    this.loadingDialog=false;
+                    alert("Error");
+                    console.log(error);
+                });    
+            }else{    
+               alert(this.c_category.id);
+            }
 
         },
         del(){
@@ -514,29 +676,14 @@ export default{
                 console.log(error);
             })
         },
-        getProducts(rowsPerPage, page, sortBy, descending){
-            this.$axios.$get(this.$store.state.base_url+"product_for_admin_table"+"?rowsPerPage="+rowsPerPage+
-                            "&page="+page+"&descending="+descending+"&sortBy="+sortBy)
-            .then(response=>{
-                this.products = response.data;                
-                this.pagination.totalItems = response.total; 
-                this.getSuccess = false;               
-            })
-            .catch(error=>{
-                console.log(error);
-                this.getSuccess = false;
-            });                 
+        async getProducts(rowsPerPage, page, sortBy, descending){
+            var products = await this.$axios.$get(this.$store.state.base_url+"product_for_admin_table"+"?rowsPerPage="+rowsPerPage+
+                            "&page="+page+"&descending="+descending+"&sortBy="+sortBy);
+            return products;           
         },
-        getProduct(id){
-            this.$axios.$get(this.$store.state.base_url+'product/'+id)
-            .then(response=>{
-                this.product=response[0];
-                this.images=JSON.parse(response[0].images);
-                this.colors=JSON.parse(response[0].colors);
-            })
-            .catch(error=>{
-                console.log(error);
-            })
+        async getProduct(id){
+            const response = await this.$axios.$get(this.$store.state.base_url+'product/'+id); 
+            return response;
         },
         uploadImageSuccess(formData, index, fileList) {
             console.log('FORMDATA = ', formData,', \n INDEX = ', index, ', \n FILELIST = ',fileList)
@@ -557,6 +704,24 @@ export default{
         },
         dataChange (data) {
             console.log(data)
+        },
+        getBase64Image(url, callback){
+            if(process.browser){
+                var str="";
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function() {
+                    var reader = new FileReader();
+                    reader.onloadend = function() {
+                        callback(reader.result);
+                    }
+                    reader.readAsDataURL(xhr.response);
+                };
+                xhr.open('GET', url);
+                xhr.responseType = 'blob';
+                xhr.send();
+            }else{
+                alert("Browser is SERVER");
+            }
         }
     }
 }

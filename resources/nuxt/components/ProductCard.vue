@@ -17,20 +17,22 @@
             </v-layout>
         </v-img>
         <v-divider></v-divider>
-        <div class="subheading mt-3 mx-1 text-capitalize " >
-            <center > <nuxt-link class="cart_name" :to="to_product"> {{product.name}}</nuxt-link>  </center>    
+        <div class="title mt-3 mx-2  text-capitalize " >
+            <center> <nuxt-link class="cart_name" :to="to_product"> {{product.name}}</nuxt-link>  </center>    
         </div>
-        <v-card-text>
-            <center class="display-1 font-weight-medium">{{product.price}} тг</center>   
-            <center v-if="product.available==1" class="caption " >Есть в наличии</center>
-            <center v-else class="caption">Нет в наличии</center>
-        </v-card-text>
-        <v-card-actions class="to-bottom-fix">
-            <v-spacer></v-spacer>        
-            <v-btn small outline  color="warning" @click="toCart()">В корзину</v-btn>
-            <v-btn  small color="error" router :to="`/buy/`+product.id">&#160;&#160;Купить&#160;&#160;</v-btn>
-            <v-spacer></v-spacer>        
-        </v-card-actions>    
+        <div class="to-bottom-fix">
+            <v-card-text>
+                <center class="display-1 font-weight-medium">{{product.price}} тг</center>   
+                <center v-if="product.available==1" class="caption " >Есть в наличии</center>
+                <center v-else class="caption">Нет в наличии</center>
+            </v-card-text>
+            <v-card-actions >
+                <v-spacer></v-spacer>        
+                <v-btn small outline  color="warning" @click="toCart()">В корзину</v-btn>
+                <v-btn  small color="error" router :to="`/buy/`+product.id">&#160;&#160;Купить&#160;&#160;</v-btn>
+                <v-spacer></v-spacer>        
+            </v-card-actions>
+        </div>    
 </v-card>
 <v-snackbar
     top
@@ -90,9 +92,12 @@ export default {
     transform: translateY(-10px);
     box-shadow: 0px 10px 20px -2px gray ;    
 }
+.product-card{
+    padding-bottom: 150px;
+}
 .cart_name{
     text-decoration: none;
-    color: black;
+    color: #333333;
 }
 .cart_name:hover{
     cursor:pointer;
@@ -100,7 +105,10 @@ export default {
     transition: 1.2s ease !important;
 }
 .to-bottom-fix{
-    display: flex;
-    bottom: 0px;
+    position: absolute;
+    bottom: 0;
+    margin-left: auto; 
+    margin-right: auto; 
+    width: 100%;
 }
 </style>
