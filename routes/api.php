@@ -37,7 +37,7 @@ Route::group(['prefix'=>'v1', 'namespace'=>'Admin' ], function(){
     Route::get('/information', 'InformationController@index');   // Барлық ақпарат парақшалары тізімін көрсету
     Route::get('/information/{information}', 'InformationController@show'); // Нақты бір ақпарат парақшасын  шығару
     Route::post('/information', 'InformationController@store'); // Ақпарат парақшасын деректер қорына сақтау
-    Route::patch('/information/{information}', 'InformationController@update'); // Деректер қорында бар ақпарат парақшасына өзгерістер енгізу
+    Route::put('/information/{information}', 'InformationController@update'); // Деректер қорында бар ақпарат парақшасына өзгерістер енгізу
     Route::delete('/information/{information}', 'InformationController@destroy'); // Деректер қорынан ақпарат парақшасын жою
 
     //Тапсырыстар (заказы) маршруттары

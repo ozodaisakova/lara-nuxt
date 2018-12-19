@@ -13,13 +13,15 @@ const _6bec9ab4 = () => import('..\\resources\\nuxt\\pages\\admin\\index.vue' /*
 const _247b0462 = () => import('..\\resources\\nuxt\\pages\\buy\\index.vue' /* webpackChunkName: "pages_buy_index" */).then(m => m.default || m)
 const _d65ddf12 = () => import('..\\resources\\nuxt\\pages\\auth\\index.vue' /* webpackChunkName: "pages_auth_index" */).then(m => m.default || m)
 const _03bdb598 = () => import('..\\resources\\nuxt\\pages\\auth\\login\\index.vue' /* webpackChunkName: "pages_auth_login_index" */).then(m => m.default || m)
-const _40e8e634 = () => import('..\\resources\\nuxt\\pages\\auth\\register\\index.vue' /* webpackChunkName: "pages_auth_register_index" */).then(m => m.default || m)
 const _d3c134f6 = () => import('..\\resources\\nuxt\\pages\\auth\\contact.vue' /* webpackChunkName: "pages_auth_contact" */).then(m => m.default || m)
-const _4b552fa9 = () => import('..\\resources\\nuxt\\pages\\auth\\dashboard\\index.vue' /* webpackChunkName: "pages_auth_dashboard_index" */).then(m => m.default || m)
+const _40e8e634 = () => import('..\\resources\\nuxt\\pages\\auth\\register\\index.vue' /* webpackChunkName: "pages_auth_register_index" */).then(m => m.default || m)
 const _bc62aa50 = () => import('..\\resources\\nuxt\\pages\\admin\\panel.vue' /* webpackChunkName: "pages_admin_panel" */).then(m => m.default || m)
-const _63e062ab = () => import('..\\resources\\nuxt\\pages\\admin\\catalog\\category.vue' /* webpackChunkName: "pages_admin_catalog_category" */).then(m => m.default || m)
-const _54a5c5d1 = () => import('..\\resources\\nuxt\\pages\\admin\\information\\add.vue' /* webpackChunkName: "pages_admin_information_add" */).then(m => m.default || m)
+const _4b552fa9 = () => import('..\\resources\\nuxt\\pages\\auth\\dashboard\\index.vue' /* webpackChunkName: "pages_auth_dashboard_index" */).then(m => m.default || m)
 const _ef34915c = () => import('..\\resources\\nuxt\\pages\\admin\\catalog\\product.vue' /* webpackChunkName: "pages_admin_catalog_product" */).then(m => m.default || m)
+const _54a5c5d1 = () => import('..\\resources\\nuxt\\pages\\admin\\information\\add.vue' /* webpackChunkName: "pages_admin_information_add" */).then(m => m.default || m)
+const _284cc8ec = () => import('..\\resources\\nuxt\\pages\\admin\\information\\edit.vue' /* webpackChunkName: "pages_admin_information_edit" */).then(m => m.default || m)
+const _df34beaa = () => import('..\\resources\\nuxt\\pages\\admin\\information\\delete.vue' /* webpackChunkName: "pages_admin_information_delete" */).then(m => m.default || m)
+const _63e062ab = () => import('..\\resources\\nuxt\\pages\\admin\\catalog\\category.vue' /* webpackChunkName: "pages_admin_catalog_category" */).then(m => m.default || m)
 const _3823a7f7 = () => import('..\\resources\\nuxt\\pages\\buy\\_id.vue' /* webpackChunkName: "pages_buy__id" */).then(m => m.default || m)
 const _45862378 = () => import('..\\resources\\nuxt\\pages\\catalog\\_id.vue' /* webpackChunkName: "pages_catalog__id" */).then(m => m.default || m)
 const _5dac922e = () => import('..\\resources\\nuxt\\pages\\product\\_id.vue' /* webpackChunkName: "pages_product__id" */).then(m => m.default || m)
@@ -134,19 +136,14 @@ export function createRouter () {
 			name: "auth-login"
 		},
 		{
-			path: "/auth/register",
-			component: _40e8e634,
-			name: "auth-register"
-		},
-		{
 			path: "/auth/contact",
 			component: _d3c134f6,
 			name: "auth-contact"
 		},
 		{
-			path: "/auth/dashboard",
-			component: _4b552fa9,
-			name: "auth-dashboard"
+			path: "/auth/register",
+			component: _40e8e634,
+			name: "auth-register"
 		},
 		{
 			path: "/admin/panel",
@@ -154,9 +151,14 @@ export function createRouter () {
 			name: "admin-panel"
 		},
 		{
-			path: "/admin/catalog/category",
-			component: _63e062ab,
-			name: "admin-catalog-category"
+			path: "/auth/dashboard",
+			component: _4b552fa9,
+			name: "auth-dashboard"
+		},
+		{
+			path: "/admin/catalog/product",
+			component: _ef34915c,
+			name: "admin-catalog-product"
 		},
 		{
 			path: "/admin/information/add",
@@ -164,9 +166,19 @@ export function createRouter () {
 			name: "admin-information-add"
 		},
 		{
-			path: "/admin/catalog/product",
-			component: _ef34915c,
-			name: "admin-catalog-product"
+			path: "/admin/information/edit",
+			component: _284cc8ec,
+			name: "admin-information-edit"
+		},
+		{
+			path: "/admin/information/delete",
+			component: _df34beaa,
+			name: "admin-information-delete"
+		},
+		{
+			path: "/admin/catalog/category",
+			component: _63e062ab,
+			name: "admin-catalog-category"
 		},
 		{
 			path: "/buy/:id",
