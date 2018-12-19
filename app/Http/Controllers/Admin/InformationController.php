@@ -12,8 +12,10 @@ class InformationController extends Controller
     
     public function index()
     {
-        return response()->json(['informations' => Information::all()], 200);       
+        return response()->json(['informations' => Information::select('id', 'icon', 'name', 'hidden')->get()], 200);       
     }
+
+    
 
     public function store(Request $request)
     {
@@ -29,6 +31,7 @@ class InformationController extends Controller
 
     public function show(Information $information)
     {
+        return $information;
          
     }
     

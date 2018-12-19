@@ -203,6 +203,11 @@ export default{
         this.getCategories();
     },
     methods:{
+        async getInformation(id){
+            const info = await this.$axios.$get(this.$store.state.base_url+"information/"+id);
+            return info;
+            
+        },
         getCategories(){
             this.$axios.$get(this.$store.getters.base_url+"information")
                 .then(response => {
@@ -216,18 +221,22 @@ export default{
                 })
         },       
         editItem(editedItem){
-            this.editName=editedItem.name;
-            this.editIcon=editedItem.icon;
-            this.editor=editedItem.content;
-            this.editID=editedItem.id;
-            if(editedItem.hidden==1) {
-                this.editHidden=false;
-                this.editHiddenText="Скрытый";
-            }else{
-                this.editHidden=true;
-                this.editHiddenText="Видимый";
-            }
-            this.editDialog=true;
+            Promise.resolve(this.getInformation(editedItem.id))
+                    .then(response=>{
+                        this.editName=editedItem.name;
+                        this.editIcon=editedItem.icon;
+                        this.editor=response.content;
+                        this.editID=editedItem.id;
+                        if(editedItem.hidden==1) {
+                            this.editHidden=false;
+                            this.editHiddenText="Скрытый";
+                        }else{
+                            this.editHidden=true;
+                            this.editHiddenText="Видимый";
+                        }
+                        
+                        this.editDialog=true;
+                    })
             
         },
         updateItem(){
