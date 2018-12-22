@@ -34,9 +34,9 @@ import VTooltip from 'vuetify/es5/components/VTooltip'
 import VDataTable from 'vuetify/es5/components/VDataTable'
 import VSwitch from 'vuetify/es5/components/VSwitch'
 import Vuetify from 'vuetify/es5/components/Vuetify'
+import VMenu from 'vuetify/es5/components/VMenu'
 
 Vue.use(Vuetify, {
-  // iconfont: 'mdi',
   components: {
     VProgressLinear,
     VAlert,
@@ -60,6 +60,7 @@ Vue.use(Vuetify, {
     VDivider,
     VApp,
     VCard,
+    VMenu,
     VNavigationDrawer,
     VFooter,
     VList,

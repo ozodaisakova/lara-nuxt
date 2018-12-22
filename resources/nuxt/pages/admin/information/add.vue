@@ -1,6 +1,6 @@
 <template>
     <v-card class="pa-4">
-    <h4 class="title my-4 text-xs-center">Создать новую страницу</h4>
+    <v-breadcrumbs :items="for_breadcrumd" divider="/"></v-breadcrumbs>       
     <v-form  v-model="valid" lazy-validation ref="form">
       <v-layout
             row
@@ -83,9 +83,16 @@
 <script>
 export default {
     layout: 'admin',
+    head:{
+        title: "Создание информационных страниц"
+    },
     data(){
         return{
             editor: "Напишите текст",
+            for_breadcrumd: [
+                {href: "/admin/panel", text:"Главная"},
+                {href: "/admin/information/edit", text: "Создание информационных страниц", disabled: true}
+            ], 
             editHidden: true,
             editHiddenNumber: 0,
             editHiddenText: 'Видимый',

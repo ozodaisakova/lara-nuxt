@@ -5,6 +5,6 @@ export default function (context) {
 	context.store.commit('toggleLoading',false)
 
 	if(currentUser && isLoggedIn){
-		context.redirect('/dashboard');
+		context.redirect('/user/profile');
 	}
 }

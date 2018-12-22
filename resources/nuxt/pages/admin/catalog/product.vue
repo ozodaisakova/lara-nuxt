@@ -1,20 +1,15 @@
 <template>
 <v-card class="pa-4">
     <v-breadcrumbs :items="for_breadcrumd" divider="/"></v-breadcrumbs>
-    <v-card class="pa-2">
         <v-layout
             row
             wrap>
-                <v-flex xs6 sm6 md8>          
-                    <v-card-text>                        
-                        <p class="text-xs-left title">Продукты</p>                
-                    </v-card-text>                   
-                </v-flex>
-                <v-flex xs6 sm6 md4 class="text-xs-right">
+                <v-flex xs6 sm6 md4>
                     <v-btn
                         @click="create('create', null)"
                         small
                         dark
+                        class="mb-4"
                         color="primary">
                         <v-icon >add</v-icon>
                         добавить                         
@@ -76,7 +71,6 @@
                 </td>             
             </template>
          </v-data-table>
-    </v-card>
 <v-dialog 
     v-model="createDialog" 
     fullscreen 
@@ -355,6 +349,9 @@
 import VueUploadMultipleImage from 'vue-upload-multiple-image'
 export default{
     layout: 'admin',
+    head:{
+        title: "Товары интернет-магазина"
+    },
     data(){
         return{
             for_breadcrumd: [

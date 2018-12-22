@@ -55,12 +55,6 @@
           <span v-if="error_catalog!=''" class="red--text lighten-3">
             Қатенің атауы: {{error_catalog.message}}<br>
             <h3>Бұл қате осы сайтқа арналған backend-пен байланыс жоғалғандығын білдіреді</h3>
-            Бұл қатені туралау үшін 
-            <b>development_backend </b> папкасына барып <b>php artisan serv</b> командасын орындау қажет.
-            <br>
-            Егер бұл команда көмектеспесе  Google Chrome браузерінде 
-            <a href="https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf/related?utm_source=chrome-ntp-icon">
-            ссылкасы </a>бойынша расширениянені орнату қажет
             </span>
         <!-- ///////////////////////////////// -->
         <v-subheader>Информация</v-subheader>
@@ -115,14 +109,52 @@
       </v-btn>
       <span>Корзина</span>
     </v-tooltip>
-      <v-tooltip bottom>
+    <template v-if="isLoggedIn">
+      <v-menu 
+        transition="slide-x-transition"
+        bottom
+        right>
       <v-btn
         slot="activator"
         icon>
-      <v-icon>account_box</v-icon>
+        <v-icon>account_box</v-icon>
       </v-btn>
-      <span>Личный кабинет</span>
-    </v-tooltip>      
+      <v-list>
+        <v-list-tile
+          v-for="(item, index) in menu_user"
+          :key="index"
+          :to="item.to">
+          <v-list-tile-title v-html="item.title"></v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile
+          @click="getSignOut()">
+          <v-list-tile-title>
+            Выход
+          </v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-menu> 
+    </template>  
+    <template v-else>
+      <v-menu 
+        transition="slide-x-transition"
+        bottom
+        right>
+      <v-btn
+        slot="activator"
+        icon>
+        <v-icon>account_box</v-icon>
+      </v-btn>
+      <v-list>
+        <v-list-tile
+          v-for="(item, index) in menu_guest"
+          :key="index"
+          :to="item.to">
+            <v-list-tile-title>{{item.title}}</v-list-tile-title>        
+        </v-list-tile>        
+      </v-list>
+    </v-menu> 
+    </template>  
     </v-toolbar>
     <v-content>
       <v-container class="main-back">
@@ -159,12 +191,22 @@ import {mapState, mapGetters} from "vuex"
           x: 0,
           y: 0
         },
-        drawerPicture: false
+        drawerPicture: false,
+        menu_guest: [
+          { icon: 'person', title: "Вход", to: '/auth/signin' },
+          { icon: 'edit', title: 'Регистрация ', to: '/auth/signup' },
+        ],
+        
+        menu_user: [
+          { title: 'Профиль', to: '/user/profile' },
+          { title: 'Заказы', to: '/user/order' },
+        ],
+
       }
     },
     components:{
       MenuItem,
-      Preloader
+      Preloader,
     },
     mounted(){
       if(process.browser){
@@ -197,7 +239,15 @@ import {mapState, mapGetters} from "vuex"
         if(process.browser){          
           return this.$store.getters.cart_count;
         }
-      }
+      },
+			isLoggedIn(){
+				// console.log(this.$store.getters)
+				return this.$store.getters.isLoggedIn;
+			},
+			user(){
+				return;
+				// return this.$store.getters.currentUser;
+			}
     },
     watch:{
     },
@@ -212,7 +262,12 @@ import {mapState, mapGetters} from "vuex"
       async getInformation(){
         const response = await this.$axios.$get(this.$store.getters.base_url+"information");
         return response;
-      }
+      },
+      	getSignOut(){
+				this.$store.dispatch('getSignOut').then(()=>{
+					this.$router.push({path:'/auth/signin'});
+				});
+			},
     }  
    
   }

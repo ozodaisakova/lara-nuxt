@@ -1,19 +1,6 @@
 <template>
 <v-card class="pa-4">
     <v-breadcrumbs :items="for_breadcrumd" divider="/"></v-breadcrumbs>
-    <v-card class="pa-2">
-         <v-layout
-            row
-            wrap>
-                <v-flex xs6 sm6 md8>          
-                    <v-card-text>                        
-                        <p class="text-xs-left title">Информационные страницы</p>                
-                    </v-card-text>                   
-                </v-flex>
-                <v-flex xs6 sm6 md4 class="text-xs-right">
-                                        
-                </v-flex> 
-         </v-layout>         
          <v-data-table
             :headers="headers"
             :items="categories"
@@ -46,8 +33,12 @@
                 </td>
             </template>
          </v-data-table>
-    </v-card>
-<v-dialog v-model="editDialog" max-width="80%" scrollable class="white-dialog">
+<v-dialog 
+    v-model="editDialog" 
+    max-width="80%" 
+    scrollable 
+    class="white-dialog"
+    persistent="true">
     <v-card>
         <v-card-title>
             <h1 class="title mt-3">Редактировать страницу</h1>
@@ -128,12 +119,15 @@
 <script>
 import StoreBreadCrumbs from '~/components/StoreBreadCrumbs.vue'
 export default{
+    head:{
+        title: "Редактирование информационных страниц"
+    },
     layout: 'admin',
     data(){
         return{
             for_breadcrumd: [
                 {href: "/admin/panel", text:"Главная"},
-                {href: "/admin/information/edit", text: "Информационные страницы", disabled: true}
+                {href: "/admin/information/edit", text: "Редактирование информационных страниц", disabled: true}
             ], 
             headers:[
                 {

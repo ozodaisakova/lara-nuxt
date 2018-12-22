@@ -8,7 +8,9 @@
 		    <v-toolbar-items>
 		    	<template v-if="!isLoggedIn">
 		    		<v-menu bottom offset-y>
-		    		   <v-btn slot="activator" flat @click="$router.push('/login')"><v-icon>fa-sign-in</v-icon>&nbsp; Sign In</v-btn>
+		    		   <v-btn slot="activator" 
+							 flat 
+							 @click="$router.push('/login')"><v-icon>fa-sign-in</v-icon>&nbsp; Sign In</v-btn>
 		    		 </v-menu>
 		    	</template>
 		    	<template v-else> 

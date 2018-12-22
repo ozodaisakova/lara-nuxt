@@ -1,9 +1,7 @@
 <template>
 	<v-snackbar
 	  v-model="snackbar"
-	  :bottom="y === 'bottom'"
 	  :timeout="timeout"
-	  :color="getAlert.status"
 	>
 	  {{ getAlert.msg }}
 	  <v-btn
@@ -20,9 +18,9 @@ export default{
   data(){
 	    return {
 	        snackbar: false,
-	        y: 'bottom',
+	        y: 'top',
 	        color:'primary',
-	        timeout: 6000,
+	        timeout: 3000,
 	        text: ''
 	    }
 	},

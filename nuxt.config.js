@@ -2,12 +2,10 @@ const laravelNuxt = require("laravel-nuxt");
 
 module.exports = laravelNuxt({
   head: {
-    title: 'Tak-mebel',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {'http-equiv': 'X-UA-Compatible', content: 'IE=edge'},
-      { hid: 'description', name: 'description', content: 'Tak-mebel' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/t-image.png' },
@@ -16,8 +14,6 @@ module.exports = laravelNuxt({
   },
   modules:['@nuxtjs/axios'],
   axios:{    
-    baseURL: 'http://localhost:8000/api/v1/',
-    // baseURL: 'https://jsonplaceholder.typicode.com/',
     credentials : false,
     proxy: false,
     proxyHeaders: false,

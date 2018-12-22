@@ -16,7 +16,7 @@
 	        	<v-btn color="primary" :disabled="!valid" :loading="loading" @click="login"><v-icon>fa-sign-in</v-icon> &nbsp;Login</v-btn>
 	        	<v-spacer></v-spacer>
 	        	 New user ?&nbsp;
-	        	<v-btn color="info" @click="$router.push('/register')"><v-icon>fa-user</v-icon>&nbsp; Register</v-btn>
+	        	<v-btn color="info" @click="$router.push('/auth/register')"><v-icon>fa-user</v-icon>&nbsp; Register</v-btn>
 	        </v-card-actions>
 	      </v-card>
 	    </v-flex>
@@ -52,14 +52,14 @@ export default {
 			},
 			valid:false
 		}
-	},
+	}, 
 	methods:{
 		login(){
 			let formData = this.form;
 			this.loading = true;
 			this.$store.dispatch('login',formData).then((res)=>{
 				this.loading = false;
-				this.$router.push('/dashboard');
+				this.$router.push('/auth/dashboard');
 			},(error)=>{
 				this.loading = false;
 			});

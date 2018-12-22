@@ -11,23 +11,7 @@
                     >edit</v-icon>
                 </div>
                 <v-text-field
-                    v-model="name"
-                    :rules="nameRules"
-                    :counter="30"
-                    label="Имя"
-                    append-icon="person"
-                    required
-                    ></v-text-field>
-                <v-text-field
-                    v-model="surname"
-                    :rules="surnameRules"
-                    :counter="30"
-                    label="Фамилия"
-                    append-icon="person"
-                    required
-                    ></v-text-field>
-                <v-text-field
-                    v-model="email"
+                    v-model="form.email"
                     :rules="emailRules"
                     label="Email"
                     append-icon="email"
@@ -35,7 +19,7 @@
                     :counter="30"
                     ></v-text-field>
                 <v-text-field
-                    v-model="password"
+                    v-model="form.password"
                     :append-icon="passwordShow ? 'visibility' : 'visibility_off'"
                     :type="passwordShow ? 'text':'password'"
                     label="Пароль"
@@ -44,51 +28,53 @@
                     required
                     @click:append="passwordShow = !passwordShow">
                 </v-text-field>
-                <v-text-field
-                    v-model="passwordConf"
-                    :append-icon="passwordConfShow ? 'visibility' : 'visibility_off'"
-                    :type="passwordConfShow ? 'text':'password'"
-                    label="Повторите пароль"
-                    :rules="passwordConfRules"
-                    counter="30"
-                    required
-                    @click:append="passwordConfShow = !passwordConfShow">
-                </v-text-field>
         </v-form>
         <v-layout class="mt-4" >
             <v-btn  
                 flat    
-                :to="`\signin`"                    
+                :to="'\signup'"                    
                 color="primary">
-                Войти
+                Регистрация
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn                             
+            <v-btn    
+                :loading="loading"                          
                 color="error"
                 @click="submit">
-                Регистрация
+                Вход
             </v-btn>
         </v-layout>                 
     </v-card>
     </v-flex>
     <v-spacer></v-spacer>
+<v-snackbar
+top
+v-model="snackbar"
+class="text-xs-center">
+    Неправильный email или пароль!
+<v-btn
+    color="pink"
+    flat
+    small
+    @click="snackbar = false">Закрыть</v-btn>
+</v-snackbar>
 </v-layout>
 </template>
 <script>
 export default {
     layout: 'particle',
+    middleware:'guest',
+	head(){
+	   return {
+	     titleTemplate: "Авторизация поьзователя"
+	   }
+	},
     data: () => ({
         valid: false,
-        name: '',
-        nameRules: [
-        v => !!v || 'Поле имя пользователя обязателен',
-        v => v.length <= 30 || 'Имя не должен превышать 30 символов'
-        ],
-        surname: '',
-        surnameRules: [
-        v => !!v || 'Поле фамилия пользователя обязателен',
-        v => v.length <= 30 || 'Фамилия не должен превышать 30 символов'
-        ],
+        form:{
+            email:'',
+            password:''
+        },
         email: '',
         emailRules: [
         v => !!v || 'Поле email обязателен',
@@ -102,25 +88,33 @@ export default {
         v => v.length >= 6 || 'Пароль должен быть не менее 6 символов'
         ],
         passwordShow: false,
-        passwordConf: '',
-        passwordConfRules: [
-        v => !!v || 'Поле пароль обязателен',
-        v => v.length <= 30 || 'Пароль не должен превышать 30 символов',
-        v => v.length >= 6 || 'Пароль должен быть не менее 6 символов',
-        ],
-        passwordConfShow: false,
+        loading: false,
+        snackbar: false
     }),
     methods:{
         submit(){
             if(this.$refs.form.validate()){
-                alert("Yes");
+                this.login();
+            }else{
+                alert("No")
             }
-        }
+        },
+        login(){
+			let formData = this.form;
+			this.loading = true;
+			this.$store.dispatch('login',formData).then((res)=>{
+				this.loading = false;
+				this.$router.push('/user/profile');
+			},(error)=>{
+                this.loading = false;
+                this.snackbar = true;
+			});
+		}
     }
 
 }
 </script>
-<style>
+<style >
 .ozi-box{
   border-radius: 10px;
   box-shadow: 0px 0px 90px rgba(0, 0, 0, 0.30);

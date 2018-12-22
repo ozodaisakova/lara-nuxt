@@ -1,16 +1,6 @@
 <template>
 <v-card class="pa-4">
-    <v-breadcrumbs :items="for_breadcrumd" divider="/"></v-breadcrumbs>
-    <v-card class="pa-2">
-         <v-layout
-            row
-            wrap>
-                <v-flex xs6 sm6 md8>          
-                    <v-card-text>                        
-                        <p class="text-xs-left title">Информационные страницы</p>                
-                    </v-card-text>                   
-                </v-flex>            
-         </v-layout>         
+    <v-breadcrumbs :items="for_breadcrumd" divider="/"></v-breadcrumbs>       
          <v-data-table
             :headers="headers"
             :items="categories"
@@ -43,7 +33,6 @@
                 </td>
             </template>
          </v-data-table>
-    </v-card>
 <v-dialog
     v-model="errorDialog"
     width="500px">
@@ -113,11 +102,14 @@
 import StoreBreadCrumbs from '~/components/StoreBreadCrumbs.vue'
 export default{
     layout: 'admin',
+    head:{
+        title: "Удаление информационных страниц"
+    },
     data(){
         return{
             for_breadcrumd: [
                 {href: "/admin/panel", text:"Главная"},
-                {href: "/admin/information/delete", text: "Информационные страницы", disabled: true}
+                {href: "/admin/information/delete", text: "Удаление информационных страниц", disabled: true}
             ], 
             headers:[
                 {

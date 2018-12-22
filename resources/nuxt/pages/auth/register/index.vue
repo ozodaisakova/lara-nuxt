@@ -18,7 +18,7 @@
 	          <v-btn color="red" class="white--text" @click="resetForm">Reset</v-btn>
 	          <v-spacer></v-spacer>
 	          Already registered ? &nbsp;
-	          <v-btn color="info" @click="$router.push('/login')"><v-icon>fa-sign-in</v-icon>&nbsp;Login</v-btn>
+	          <v-btn color="info" @click="$router.push('/auth/login')"><v-icon>fa-sign-in</v-icon>&nbsp;Login</v-btn>
 	        </v-card-actions>
 	      </v-card>
 	    </v-flex>
@@ -70,7 +70,7 @@ export default {
 			this.loading = true;
 			this.$store.dispatch('register',formData).then((res)=>{
 				this.loading = false;
-				this.$router.push('/login');
+				this.$router.push('/auth/login');
 			},(error)=>{
 				this.loading = false;
 			});

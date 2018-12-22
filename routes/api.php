@@ -43,8 +43,4 @@ Route::group(['prefix'=>'v1', 'namespace'=>'Admin' ], function(){
     //Тапсырыстар (заказы) маршруттары
     Route::get('/productorder', 'ProductOrderController@all'); // Барлық тапсырыстар тізімін шығару
     Route::post('/productorder', 'ProductOrderController@store'); // Тапсырысты деректер қорына қосу
-
-    // Қолданушыларға арналған маршруттар
-    Route::post('/signin', 'AuthController@signin');
-    Route::post('/signup', 'AuthController@signup');
 });

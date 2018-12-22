@@ -9,7 +9,7 @@ export default function (context) {
 		},(error)=>{
 			context.store.commit('toggleLoading',false);
 			context.store.commit('logout');
-			context.redirect('/login');
+			context.redirect('/auth/login');
 			console.log(error)
 		});
 	});
@@ -23,6 +23,6 @@ export default function (context) {
 			msg:"You need to login for accessing this content.",
 			status:"primary"
 		});
-		context.redirect('/login');
+		context.redirect('/auth/login');
 	}
 }

@@ -1,21 +1,14 @@
 <template>
 <v-card class="pa-4">
     <v-breadcrumbs :items="for_breadcrumd" divider="/"></v-breadcrumbs>
-    <v-card class="pa-2">
-         <v-layout
-            row
-            wrap>
-                <v-flex xs6 sm6 md8>          
-                    <v-card-text>                        
-                        <p class="text-xs-left title">Категории</p>                
-                    </v-card-text>                   
-                </v-flex>
-                <v-flex xs6 sm6 md4 class="text-xs-right">
+         <v-layout>                
+                <v-flex xs6 sm6 md4 class="mt">
                     <v-btn
                         @click="dialog=!dialog"
                         small
                         dark
-                       color="primary">
+                        class="mb-4"
+                        color="primary">
                         <v-icon >add</v-icon>
                         добавить                         
                     </v-btn>
@@ -100,7 +93,6 @@
                 </td>
             </template>
          </v-data-table>
-    </v-card>
 <v-dialog v-model="editDialog" max-width="500px" scrollable class="white-dialog">
     <v-card>
         <v-card-title>
@@ -207,6 +199,9 @@
 <script>
 import StoreBreadCrumbs from '~/components/StoreBreadCrumbs.vue'
 export default{
+    head:{
+        title: "Категория товаров"
+    },
     layout: 'admin',
     data(){
         return{
