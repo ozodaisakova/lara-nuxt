@@ -3,14 +3,14 @@
  <v-parallax
     dark
     height="300"
-    class="ma-4"
+    class="ma-2"
     src="/img/homepage.jpg"  >
     <v-layout
       align-center
       column
       justify-center
     >
-      <h1 class="display-2 font-weight-thin mb-3 text-xs-center">Мебельная фабрика ИП "Кудайбергенов"</h1>
+      <h1 class="display-1 font-weight-thin mb-3 text-xs-center">Мебельная фабрика ИП "Кудайбергенов"</h1>
       <h4 class="title font-weight-thin text-xs-center">Мебели по лучшей цене!</h4>
     </v-layout>
   </v-parallax>
@@ -50,7 +50,7 @@
          <v-container  v-if="recomProducts!=''">            
                 <v-layout row wrap >
                     <v-flex d-flex xs12 sm12 md8 >
-                        <h1 class="title mb-4">Рекомендованные товары</h1>     
+                        <h1 class="title mb-4">Рекомендация</h1>     
                     </v-flex>            
                 </v-layout>
                 <v-layout 

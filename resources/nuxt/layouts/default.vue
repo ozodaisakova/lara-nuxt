@@ -212,13 +212,13 @@ import {mapState, mapGetters} from "vuex"
       if(process.browser){
         if(!localStorage.cart_product_count) localStorage.setItem('cart_product_count', '0');
         this.$store.dispatch('increment_cart', parseInt(localStorage.getItem('cart_product_count')));
+        if(!localStorage.cart_product_list) localStorage.setItem('cart_product_list', '[]');
         this.onResize();
         if(this.windowSize.x < 1260) {
           this.drawer=false;
           this.drawerPicture=true;
         }
       }     
-      // this.preloader=true
       Promise.all([this.getCatalog(),  this.getInformation()])
                   .then(values=>{
                     this.menu_items = values[0];
@@ -241,7 +241,6 @@ import {mapState, mapGetters} from "vuex"
         }
       },
 			isLoggedIn(){
-				// console.log(this.$store.getters)
 				return this.$store.getters.isLoggedIn;
 			},
 			user(){

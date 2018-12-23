@@ -12,7 +12,6 @@
         </v-flex>
     </v-layout>
     <any-error v-else-if="error==true" v-bind:error_code="error_code" v-bind:error_name="error_name"></any-error>
-
 <v-stepper xs12 sm12 md12 v-else v-model="e6"  >
   <v-stepper-header>
     <v-stepper-step :complete="e6 > 1" step="1">
@@ -178,9 +177,7 @@
     </v-dialog>
       <v-btn color="primary" @click="checkForm()">Следующий</v-btn>
       <v-btn flat  @click="e6=1">Предыдущий</v-btn>
-    </v-stepper-content>
-
-    
+    </v-stepper-content>    
     <v-stepper-content step="3">
       <div color="grey lighten-5" class="mb-5 "  >
         <v-layout row wrap>
@@ -257,9 +254,7 @@
       </div>
       <v-btn :disabled="pay" :loading="pay" color="primary" @click.native="doPay()">Следующий</v-btn>
       <v-btn flat @click="e6=2">Предыдущий</v-btn>
-    </v-stepper-content>
-
-    
+    </v-stepper-content>    
     <v-stepper-content step="4">
       <v-card color="grey lighten-5" class="mb-5">
         <v-layout row wrap>
@@ -274,8 +269,7 @@
               :value="error_pay">
               Что-то пошло не так, попробуйте позднее!
             </v-alert>
-          </v-flex>
-          
+          </v-flex>          
           <v-flex xs12 sm6 md6>
             <v-btn
               @click="exportToPDF"
@@ -283,8 +277,7 @@
               Экспорт 
               <v-icon>mdi-download</v-icon>
             </v-btn>
-          </v-flex>
-          
+          </v-flex>          
         </v-layout>
       </v-card>
       <v-btn color="primary" @click="e6 = 1">Следующий</v-btn>
@@ -412,15 +405,16 @@ import AnyError from '~/components/errors/AnyError.vue'
         if(this.$refs.payload.validate()){
           if(this.product_color=="") this.product_color="Не выбран";
           else alert("Color not select");
+          alert(this.client_phone)
            this.$axios.$post(this.$store.getters.base_url+'productorder',{
              'product_id': this.product.id,
              'product_count': this.item,
-             'product_color': "as",
-             'user_id': 1,
+             'product_color': this.product_color,
              'user_name': this.client_name,
-             'user_surname': this.client_surname,
+             'user_phone': this.client_phone,
              'user_email': this.client_email,
-             'user_adress': this.client_adress
+             'user_adress': this.client_adress,
+             'total_price': this.product.price*this.item
            })
            .then(response=>{
              this.e6=4;

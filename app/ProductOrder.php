@@ -7,12 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class ProductOrder extends Model
 {
     protected $fillable=[
-        'product_id', 
-        'product_count', 
-        'product_color', 
         'user_id', 
         'user_name', 
         'user_surname',
+        'user_phone',
         'user_email',
         'user_adress'
     ];
@@ -23,5 +21,9 @@ class ProductOrder extends Model
 
     public function productorder(){
         return $this->belongsTo('App\Product');
+    }
+
+    public function productorderlist(){
+        return $this->belongsTo('App\ProductOrderList');
     }
 }

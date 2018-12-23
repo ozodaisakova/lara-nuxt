@@ -30,8 +30,7 @@ const createStore = () => {
 			},
 			base_url: 'api/v1/',
 			cart_count: 0,
-			locales: ['ru', 'kz'],
-			locale: 'ru'
+			total_price: 0
 		},
 		getters:{
 			base_url:state=>{
@@ -54,6 +53,9 @@ const createStore = () => {
 			},
 			cart_count:state=>{
 				return state.cart_count;
+			},
+			total_price:state=>{
+				return state.total_price
 			}
 		},
 		mutations:{
@@ -64,7 +66,6 @@ const createStore = () => {
 				state.alert.msg = "Howdy! You have been Logged in...";
 				state.alert.status = "success";
 				state.currentUser = Object.assign({},payload.user,{token:payload.access_token});
-
 				localStorage.setItem("user",JSON.stringify(state.currentUser));
 			},
 			setUser(state){
@@ -101,28 +102,83 @@ const createStore = () => {
 			setAuthError(state,payload){
 				state.authErr = payload;
 			},
+			INCREMENT_TOTAL_PRICE(state, value){
+				state.total_price = state.total_price+value
+			},
+			DECREMENT_TOTAL_PRICE(state, value){
+				state.total_price = state.total_price-value
+			},
 			INCREMENT_CART(state, value){
 				state.cart_count = state.cart_count+value;
 			},
 			DECREMENT_CART(state, value){
-			state.cart_count = value;
+				state.cart_count = state.cart_count-value;
 			},
 			SET_LANG(state, locale){
-			if(state.locales.indexOf(locale)!==-1){
-				state.locale = locale
-			}
+				if(state.locales.indexOf(locale)!==-1){
+					state.locale = locale
+				}
 			}
 		},
-		actions:{
-			init(store){
-				store.actions.increment_cart(store, parseInt(localStorage.getItem('cart_product_count')))
-			  },
-			  increment_cart(store, value){
+		actions:{	
+			to_cart(store, id){
+				if(process.browser){
+					var arr = [];
+					var i=0;
+					arr = JSON.parse(localStorage.getItem('cart_product_list'));
+					if(arr!=null){
+						for(var element in arr){
+							if(parseInt(arr[element])==parseInt(id)) {
+								i=1;
+							}
+						}
+					}
+					if(i==0){
+						arr.push(id);
+						var str = JSON.stringify(arr);
+						localStorage.removeItem['cart_product_list'];
+						localStorage.setItem('cart_product_list', str);
+						var count = parseInt(localStorage.getItem('cart_product_count'));
+						count++;
+						localStorage.setItem('cart_product_count', count.toString());
+						store.commit('INCREMENT_CART', 1);
+					}					
+				}
+			},	
+			removeCart(store, id){
+				if(process.browser){
+					var arr = [];
+					var i=0;
+					arr = JSON.parse(localStorage.getItem('cart_product_list'));
+					if(arr!=null){
+						for(var element in arr){
+							if(parseInt(arr[element])==parseInt(id)) {
+								arr.splice(element, 1);
+							}
+						}
+					}
+					var str="";
+					localStorage.removeItem('cart_product_list');
+					str = JSON.stringify(arr);
+					localStorage.setItem('cart_product_list', str);
+					var count = localStorage.getItem('cart_product_count');
+					count--;
+					localStorage.setItem('cart_product_count', count);					
+					store.commit('DECREMENT_CART', 1);					
+				}
+			},
+			increment_price(store, value){
+				store.commit('INCREMENT_TOTAL_PRICE', value);
+			},
+			decrement_price(store, value){
+				store.commit('DECREMENT_TOTAL_PRICE', value);
+			},
+			increment_cart(store, value){
 				store.commit('INCREMENT_CART', value);
-			  },
-			  decrement_cart(store, value){
+			},
+			decrement_cart(store, value){
 				store.commit('DECREMENT_CART', value);
-			  },
+			},
 			showAlert(context,payload){
 				context.commit('setAlert',payload);
 			},

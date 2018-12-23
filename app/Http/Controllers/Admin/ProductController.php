@@ -28,6 +28,20 @@ class ProductController extends Controller
         return response()->json(['recom_products'=>$products], 200);
     }
 
+    public function getCart(Request $r){
+        $products = array();
+        $ids = array();
+        $ids = $r->arr;
+        // return dd($ids);
+        $length =count($ids);
+        for($i=0;  $i< $length;  $i++){
+            $id = $ids[$i];
+            $product=Product::find($id);
+            array_push($products, $product);
+        }
+        return response()->json($products, 200);
+    }
+
     public function store(Request $request)
     {
         // Массивтерді хабарлау

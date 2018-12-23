@@ -35,33 +35,47 @@
         </v-flex>
         <v-flex xs12 sm6 md5 d-flex class="mt-3">
             <v-flex class="pa-3 v-card theme--light mx-2">
-                <h1 class="headline font-weight-bold  mb-2">{{product.name}}</h1>
-                <h1 class="headline font-weight-bold grey--text darken-2 mb-3">{{product.price}} тг</h1>
+                <h1 class="headline font-weight-bold  mb-2 text-capitalize">{{product.name}}</h1>
+                <h1 class="headline font-weight-bold grey--text darken-2 mb-3">{{price}} тг</h1>
                 <v-divider class="mb-4 "></v-divider>  
                 <v-layout row wrap>
                     <v-flex class="text-xs-justify">
                         {{short_description}}
                         <v-divider class="mt-4"></v-divider> 
                     </v-flex>
-                    <v-divider class="mt-4"></v-divider>  
-                    <v-flex xs12 sm6 md6 class="px-2 mt-4">
-                        <v-btn
-                            color="warning"
-                            block
-                            outline
-                            @click="toCart()">
-                            В корзину
-                        <v-icon  right>add_shopping_cart</v-icon>
-                        </v-btn>
-                    </v-flex>
-                    <v-flex xs12 sm6 md6 class=" px-2 mt-4">
-                        <v-btn
-                            block
-                            color="error"
-                            :to="`/buy/`+product.id">
-                            Купить сейчас
-                        </v-btn>
-                    </v-flex>
+                    <v-divider class="mt-4"></v-divider>                    
+                       <v-btn                      
+                    outline  
+                    color="warning" 
+                    block
+                    class="mt-5"
+                    v-if="disabled==false"                                 
+                    @click="toCart(product.id)">
+                     <v-icon  left>add_shopping_cart</v-icon>
+                    В корзину
+                </v-btn>                   
+                <v-badge
+                    color="primary"
+                    right
+                    v-else
+                    class="mt-5"
+                    style="width: 100%;"
+                    overlap
+                    >
+                    <v-icon
+                        slot="badge"
+                        dark
+                        small
+                    >done</v-icon>
+                    <v-btn                      
+                        outline  
+                        color="primary" 
+                        to="/cart"
+                        block
+                        >
+                        В корзину
+                    </v-btn>
+                    </v-badge>            
                 </v-layout>
                 <div class="mt-3"></div>
             </v-flex>
@@ -147,14 +161,21 @@ export default{
             error_code: "---",
             error_name: 'НЕИВЕСТНАЯ ОШИБКА',
             for_breadcrumd: [{href: "/", text:"Главная"}],
-            short_description: ''
+            short_description: '',
+            disabled: false
         }    
     },
     components:{
         StoreBreadCrumbs,
         AnyError
     },
-    mounted() {
+    computed:{
+        price:function (){
+            var str = this.product.price.toString();
+            return str.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+        }
+    },
+    created() {
         this.preloader=true;
         var id=this.$route.params.id;
         Promise.all([this.getProduct(id)])
@@ -185,8 +206,27 @@ export default{
                         this.error=true;
                         this.preloader=false;
                     });
+        var arr = [];
+        var i=0;
+        arr = JSON.parse(localStorage.getItem('cart_product_list'));
+        if(arr!=null){
+            for(var element in arr){
+                if(parseInt(arr[element])==parseInt(this.$route.params.id)) {
+                    i=1;
+                }
+            }
+        } 
+        if(i==0){
+            this.disabled=false;
+        }else {
+            this.disabled=true;
+        } 
     },
     methods:{
+         toCart(id){
+            this.$store.dispatch('to_cart', id);  
+            this.disabled=true;       
+        },
         plusItem(item){
             if(item<20)
             this.item=item+1
@@ -203,25 +243,6 @@ export default{
         async getCatalog(id){
             const response = await this.$axios.$get(this.$store.getters.base_url+"catalog/"+id);
             return response;
-        },
-        toCart(){
-            if(process.browser){
-                //сохранение количество товаров
-                if(!localStorage.cart_product_count) localStorage.cart_product_count=0;   
-                var count=  parseInt(localStorage.cart_product_count)  +1;   
-                localStorage.cart_product_count=count.toString();
-                this.snackbar=true;
-                this.$store.dispatch('increment_cart', 1);
-                // сохранение самого продукта в localstorage и в корзину
-                if(!localStorage.cart_product_list) 
-                    localStorage.setItem('cart_product_list', '[]');
-                var pr=localStorage.getItem('cart_product_list');               
-                this.products=JSON.parse(pr);    
-                this.new_product_json='{ "user_id":"Not registered", "product_id":"'+this.product.id+'"}';
-                this.products.push(this.new_product_json);
-                localStorage.removeItem('cart_product_list')
-                localStorage.setItem('cart_product_list', JSON.stringify(this.products));
-            }
         },
     }
 }

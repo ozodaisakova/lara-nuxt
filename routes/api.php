@@ -24,6 +24,7 @@ Route::group(['prefix'=>'v1', 'namespace'=>'Admin' ], function(){
 
 
     // Тауарлар маршруттары
+    Route::post('/cart', 'ProductController@getCart'); //Корзинаға қажетті тауарлар тізімін шығару
     Route::get('/new-products', 'ProductController@newProducts'); // Жаңа тауарлар машруттары
     Route::get('/recommend-products', 'ProductController@recomProducts');  //Рекомендацияңа арналған тауарлар
     Route::get('/product', 'ProductController@index');   // Барлық тауарлар тізімін көрсету

@@ -61,7 +61,7 @@ import ProductCardLoader from '~/components/loaders/ProductCardLoader.vue'
 import AnyError from '~/components/errors/AnyError.vue'
 export default {
     head:{
-        title: "Tak-mebel-Мбельная фабрика"
+        title: "Tak-mebel-Мебельная фабрика"
     },
     data(){
         return{

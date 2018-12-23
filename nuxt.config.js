@@ -9,7 +9,8 @@ module.exports = laravelNuxt({
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/t-image.png' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
+      // { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700' },
+      // { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
     ]
   },
   modules:['@nuxtjs/axios'],

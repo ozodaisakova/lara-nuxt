@@ -1,5 +1,5 @@
-// import '@mdi/font/css/materialdesignicons.css' 
-// import 'material-design-icons/iconfont/material-icons.css'
+import 'material-design-icons/iconfont/material-icons.css'
+import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import 'vuetify/dist/vuetify.min.css'
 import Vue from 'vue'
 import VApp from 'vuetify/es5/components/VApp'
