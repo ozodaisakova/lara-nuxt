@@ -7,6 +7,11 @@
             aspect-ratio="1.3"
             class="grey lighten-2 "
             mb-2>
+            <span 
+                v-if="new_product==true" 
+                class="text-xs-center red white--text px-2 new-product"            >
+                НОВИНКА
+            </span>
             <v-layout
                 slot="placeholder"
                 fill-height
@@ -16,9 +21,11 @@
                 <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
             </v-layout>
         </v-img>
-        <v-divider></v-divider>
+        <v-divider></v-divider>                
         <div class="title mt-3 mx-2  text-capitalize " >
-            <center> <nuxt-link class="cart_name" :to="to_product"> {{product.name}}</nuxt-link>  </center>    
+            <center>
+                 <nuxt-link class="cart_name" :to="to_product"> {{product.name}}</nuxt-link>  
+            </center>    
         </div>
         <div class="to-bottom-fix">
             <v-card-text>
@@ -49,7 +56,7 @@
 </template>
 <script>
 export default {
-    props: ["product"],
+    props: ["product", 'new_product'],
     data(){
         return{           
             to_product: "",

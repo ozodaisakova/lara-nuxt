@@ -33,6 +33,7 @@ module.exports = laravelNuxt({
     {src: '~plugins/chart.js', ssr: false},
     {src: '~plugins/select.js', ssr: false},
     {src: '~plugins/editor.js', ssr: false},
+    {src: '~plugins/swiper.js', ssr: false},
   ],
   css: [
     '~style/app.styl',

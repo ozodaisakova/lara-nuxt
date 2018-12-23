@@ -20,6 +20,7 @@ import VImg from 'vuetify/es5/components/VImg'
 import VList from 'vuetify/es5/components/VList'
 import VNavigationDrawer from 'vuetify/es5/components/VNavigationDrawer'
 import VPagination from 'vuetify/es5/components/VPagination'
+import VParallax from 'vuetify/es5/components/VParallax'
 import VProgressCircular from 'vuetify/es5/components/VProgressCircular'
 import VProgressLinear from 'vuetify/es5/components/VProgressLinear'
 import VSelect from 'vuetify/es5/components/VSelect'
@@ -53,6 +54,7 @@ Vue.use(Vuetify, {
     VCarousel,
     VSelect,
     VPagination,
+    VParallax,
     VProgressCircular,
     VImg,
     VTextField,

@@ -13,16 +13,29 @@
     </v-layout>
     <any-error v-else-if="error==true" v-bind:error_code="error_code" v-bind:error_name="error_name"></any-error>
 
-<v-stepper xs12 sm12 md12 v-else v-model="e6" vertical >
+<v-stepper xs12 sm12 md12 v-else v-model="e6"  >
+  <v-stepper-header>
     <v-stepper-step :complete="e6 > 1" step="1">
       Шаг 1: Выбор продукта 
       <small>Выберите количество и цвет продукта</small>
     </v-stepper-step>
+    <v-stepper-step :complete="e6 > 2" step="2">
+        Шаг 2 : Заполнение данных
+         <small>Заполните следующие формы </small>
+    </v-stepper-step> 
+    <v-stepper-step :complete="e6 > 3" step="3">
+        Шаг 3 : Оплата
+        <small>Оплата продукта</small>
+    </v-stepper-step>
+    <v-stepper-step step="4">
+        Шаг 4 : Завершение
+        <small>Завершение заказа</small>
+    </v-stepper-step>
+  </v-stepper-header>    
     <v-stepper-content step="1">
-      <v-card color="grey lighten-5" class="mb-5 pa-2" >
-          <v-layout row wrap>
+          <v-layout row wrap class="my-5">
               <v-flex xs12 sm6 md6 row  class="">
-                   <v-card class="pa-4" >
+              <v-card class="pa-2" >
               <v-layout>
                 <v-flex xs5>
                   <v-img
@@ -52,11 +65,11 @@
                   <v-flex xs12 md12 sm12 class="mt-4">
                         <v-select
                             v-model="product_color"
-                            label="Выберите цвет товара"
+                            label="Выберите цвет товара"                            
                             :items="colors"
                             item-text="color"
                             item-value="color"
-                            class="mx-5">
+                            class="mx-3">
                         </v-select>
                     </v-flex> 
                     <v-flex  xs4 sm4 md4 class="text-xs-right">
@@ -92,38 +105,37 @@
                 </v-layout>                  
               </v-flex>
           </v-layout>
-      </v-card>
+          <p class="ml-2 title">
+            <b>Итоговая цена:</b> 
+            {{product.price}} тг x {{item}} шт = {{product.price*item}} тг
+            </p> 
+          <br><br>
       <v-btn color="primary" @click="e6 = 2">Следующий</v-btn>
       <v-btn flat router to="/">ОТМЕНИТЬ</v-btn>
-    </v-stepper-content>
-    <v-stepper-step :complete="e6 > 2" step="2">
-        Шаг 2 : Заполнение данных
-         <small>Заполните следующие формы </small>
-    </v-stepper-step>    
+    </v-stepper-content>       
     <v-stepper-content step="2">
-      <v-card  class="mb-5 pa-4" >
           <v-layout row wrap>
            <v-flex xs12 sm3 md3 d-flex ></v-flex>
         <v-flex xs12 sm6 md6 class="pt-3">
-          <v-card>
+          <v-card class="my-5">
              <div class="text-xs-center pt-5"><v-icon x-large >edit</v-icon></div>
-        <v-form  v-model="valid" class="pa-3" lazy-validation ref="form">
+        <v-form  v-model="valid" class="pa-2" lazy-validation ref="form">
             <v-text-field
             v-model="client_name"       
             :rules="nameRules"
             :counter="30"
             outline
             append-icon="person"
-            label="Введите имя"
+            label="Ф. И. О."
             required></v-text-field>
             <v-text-field
-            v-model="client_surname"       
-            :rules="surnameRules"
-            :counter="30"
-            append-icon="person"
-            label="Введите фамилию"
-            outline
-            required></v-text-field>
+              v-model="client_phone"
+              :rules="phoneRules"
+              outline
+              label="Номер телефона"
+              mask="phone"
+              append-icon="phone">
+            </v-text-field>           
           <v-text-field  
             v-model="client_email"    
             :rules="emailRules"
@@ -164,15 +176,11 @@
             </v-card-actions>
           </v-card>
     </v-dialog>
-      </v-card>
       <v-btn color="primary" @click="checkForm()">Следующий</v-btn>
       <v-btn flat  @click="e6=1">Предыдущий</v-btn>
     </v-stepper-content>
 
-    <v-stepper-step :complete="e6 > 3" step="3">
-        Шаг 3 : Оплата
-        <small>Оплата продукта</small>
-    </v-stepper-step>
+    
     <v-stepper-content step="3">
       <div color="grey lighten-5" class="mb-5 "  >
         <v-layout row wrap>
@@ -251,10 +259,7 @@
       <v-btn flat @click="e6=2">Предыдущий</v-btn>
     </v-stepper-content>
 
-    <v-stepper-step step="4">
-        Шаг 4 : Завершение
-        <small>Завершение заказа</small>
-    </v-stepper-step>
+    
     <v-stepper-content step="4">
       <v-card color="grey lighten-5" class="mb-5">
         <v-layout row wrap>
@@ -303,11 +308,15 @@ import AnyError from '~/components/errors/AnyError.vue'
         preloader: false,
         item: 1,
         valid: false,
-        cardValid: false,        
+        cardValid: false,   
+        client_phone: '',        
         nameRules: [
           v => !!v || 'Поле имя обязателен',
           v => v.length <= 30 || 'Длина не должен превышать 30 символов'
-        ],      
+        ], 
+        phoneRules:[
+          v => !!v || 'Поле номер телефона обязателен',
+        ] ,    
         surnameRules: [
           v => !!v || 'Поле фамилия обязателен',
           v => v.length <= 30 || 'Длина не должен превышать 30 символов'
@@ -401,6 +410,8 @@ import AnyError from '~/components/errors/AnyError.vue'
       },
       doPay(){
         if(this.$refs.payload.validate()){
+          if(this.product_color=="") this.product_color="Не выбран";
+          else alert("Color not select");
            this.$axios.$post(this.$store.getters.base_url+'productorder',{
              'product_id': this.product.id,
              'product_count': this.item,

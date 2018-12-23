@@ -34,6 +34,7 @@
                     wrap>
                     <ProductCard 
                     v-bind:product="i"
+                    v-bind:new_product="false"
                     v-for="i in products.data"
                     :key="i.id">
                     </ProductCard>     
@@ -57,9 +58,11 @@
 <script>
 import ProductCard from '~/components/ProductCard.vue'
 import ProductCardLoader from '~/components/loaders/ProductCardLoader.vue'
-import StoreBreadCrumbs from '~/components/StoreBreadCrumbs.vue'
 import AnyError from '~/components/errors/AnyError.vue'
 export default {
+    head:{
+        title: "Tak-mebel-Мбельная фабрика"
+    },
     data(){
         return{
             slug: '',
@@ -90,7 +93,6 @@ export default {
     components:{
         ProductCard,
         ProductCardLoader,
-        StoreBreadCrumbs,
         AnyError
     },
     mounted() {
@@ -100,6 +102,7 @@ export default {
                     .then(values=>{
                         this.catalog=values[0];
                         this.products=values[1];
+                        console.log("RESPONSE", this.products);
                         this.total_page=values[1].last_page;
                         this.current_page=values[1].current_page;
                         this.productloader=false;
@@ -180,6 +183,4 @@ export default {
 .container_products {
   scroll-behavior: smooth;
 }
-
-
 </style>

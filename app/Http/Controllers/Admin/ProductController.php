@@ -18,6 +18,16 @@ class ProductController extends Controller
         return response()->json(['products' => Product::all()],200);
     }  
 
+    public function newProducts(){
+        $products = Product::limit(8)->orderBy('created_at', 'desc')->get();
+        return response()->json(['new_products'=>$products], 200);
+    }
+
+    public function recomProducts(){
+        $products = Product::limit(8)->orderBy('recommendation', '1')->get();
+        return response()->json(['recom_products'=>$products], 200);
+    }
+
     public function store(Request $request)
     {
         // Массивтерді хабарлау

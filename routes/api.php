@@ -24,6 +24,8 @@ Route::group(['prefix'=>'v1', 'namespace'=>'Admin' ], function(){
 
 
     // Тауарлар маршруттары
+    Route::get('/new-products', 'ProductController@newProducts'); // Жаңа тауарлар машруттары
+    Route::get('/recommend-products', 'ProductController@recomProducts');  //Рекомендацияңа арналған тауарлар
     Route::get('/product', 'ProductController@index');   // Барлық тауарлар тізімін көрсету
     Route::get('/product_for_admin_table', 'ProductController@product_for_admin_table'); //Администратор режимінде тауаларды кесте түрінде көрсету (атауы, категори аты,  бағасы)
     Route::get('/products-of-catalog', 'ProductController@products_of_catalog'); //Бір каталог құрамын кіретін тауарлар тізімін шығару
