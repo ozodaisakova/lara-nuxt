@@ -1,5 +1,5 @@
 <template>
-  <v-card >
+  <v-card class="py-3 my-2">
     <v-layout row wrap align-center justify-center class="my-2">
     <v-flex xs6  md2 >
         <v-img
@@ -106,10 +106,19 @@ export default {
             var str = this.product.price.toString();
             return str.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
         }
-    },    
+    },
+    watch:{
+        item: function(val){
+            this.vals();
+        },
+        color: function(val){
+            this.vals();
+        }
+    },
     methods:{
         vals() {
             this.$emit('vals', {
+                id: this.product.id,
                 color: this.color,
                 count: this.item
             })
@@ -118,9 +127,9 @@ export default {
             this.$emit('delItem',{
                 id: this.product.id,
                 price: this.product.price,
+                color: this.color,
                 count: this.item
-            });
-           
+            });           
         },
         plusItem(item){
             if(item<20){

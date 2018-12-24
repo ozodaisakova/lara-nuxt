@@ -30,9 +30,13 @@ const createStore = () => {
 			},
 			base_url: 'api/v1/',
 			cart_count: 0,
-			total_price: 0
+			total_price: 0,
+			cart_products: []
 		},
 		getters:{
+			cart_products:state=>{
+				return state.cart_products;
+			},
 			base_url:state=>{
 				return state.base_url;
 			},
@@ -114,13 +118,15 @@ const createStore = () => {
 			DECREMENT_CART(state, value){
 				state.cart_count = state.cart_count-value;
 			},
-			SET_LANG(state, locale){
-				if(state.locales.indexOf(locale)!==-1){
-					state.locale = locale
-				}
+			SETCARTPRODUCTS(state, value){
+				state.cart_products = value;
 			}
 		},
 		actions:{	
+			setCartProducts(store, id, count,  color){
+				var products = [];	
+				store.commit('SETCARTPRODUCTS', products);
+			},
 			to_cart(store, id){
 				if(process.browser){
 					var arr = [];

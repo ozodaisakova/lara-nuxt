@@ -11,7 +11,7 @@
             </div>
         </v-flex>
     </v-layout>
-    <any-error v-else-if="error==true" v-bind:error_code="error_code" v-bind:error_name="error_name"></any-error>
+    <any-error v-if="error==true" v-bind:error_code="error_code" v-bind:error_name="error_name"></any-error>
 <v-stepper xs12 sm12 md12 v-else v-model="e6"  >
   <v-stepper-header>
     <v-stepper-step :complete="e6 > 1" step="1">
@@ -418,19 +418,25 @@ import AnyError from '~/components/errors/AnyError.vue'
            })
            .then(response=>{
              this.e6=4;
-             this.success_pay=true
+             this.success_pay=true;
+             var str = '[]';
+             localStorage.setItem('cart_product_list', str);
+             localStorage.setItem('cart_product_count', '0');
            })
            .catch(e=>{
              this.error_pay = true;
              if(e.response.status==400){
                this.error_code='400';
                this.error_name="ОШИБКА ЗАПРОСА!";
+               this.error=true;
              }else if(e.response.status==404){
                this.error_code="404";
                this.error_name="СТРАНИЦА НЕ НАЙДЕНО!";
+               this.error=true;
              }else{
                this.error_code="---";
                this.error_name="НЕИВЕСТНАЯ ОШИБКА!";
+               this.error=true;
              }
            });
           this.e6=4;

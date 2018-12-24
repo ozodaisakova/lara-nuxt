@@ -104,7 +104,7 @@ export default {
 			this.loading = true;
 			this.$store.dispatch('login',formData).then((res)=>{
 				this.loading = false;
-				this.$router.push('/user/profile');
+				this.$router.push('/');
 			},(error)=>{
                 this.loading = false;
                 this.snackbar = true;

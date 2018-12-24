@@ -38,14 +38,16 @@
         <v-divider></v-divider>
         <v-list-tile 
         router
-        to="/admin/panel"
-        exact        
+        :to="item.to"
+        exact  
+        v-for="(item, i) in menu_items"    
+        :key="i"
         ripple>
           <v-list-tile-action>
-            <v-icon>bubble_chart</v-icon>
+            <v-icon>{{item.icon}}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Панель состоянии</v-list-tile-title>
+            <v-list-tile-title>{{item.name}}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list>
@@ -110,105 +112,24 @@
 <script>
 import Preloader from '~/components/loaders/Preloader.vue'
   export default {
+    middleware: 'admin',
     data () {
       return {
         base_category_link: '',
         clipped: true,
         drawer: true,
         fixed: false,
-         items: [
-          {
-            action: 'style',
-            title: 'Каталог',
-            items: [
-              { title: 'Категории', to: '/admin/catalog/category' },
-              { title: 'Товары', to: '/admin/catalog/product' },
-              { title: 'Отзывы', to: '/admin/catalog/review' },
-            ]
-          },
-          {
-            action: 'chrome_reader_mode',
-            title: 'Инфo. страницы',
-            items: [
-              { title: 'Добавить', to: '/admin/information/add' },
-              { title: 'Редактировать', to: '/admin/information/edit' },
-              { title: 'Удалить', to: '/admin/information/delete' },
-            ]
-          },
-          {
-            action: 'shopping_cart',
-            title: 'Продажи',
-            items: [
-              { title: 'Корзина', to: '/admin/sale/cart' },
-              { title: 'Заказы', to: '/admin/sale/order' },
-              { title: 'Доставка', to: '/admin/sale/shipping' },
-              { title: 'Возврат товара', to: '/admin/sale/back' }
-            ]
-          },
-          {
-            action: 'person',
-            title: 'Покупатели',
-            items: [
-              { title: 'Зарегистрованные', to: '/admin/buyer/registered' },
-              { title: 'Незарегистрованные' , to: '/admin/buyer/unregistered'},
-            ]
-          },
-          {
-            action: 'portrait',
-            title: 'Сотрудники',
-            items: [
-              { title: 'Администраторы', to: '/admin/worker/registered' },
-              { title: 'Заведующий склада', to: '/admin/worker/warehouse'  },
-              { title: 'Служба доставки', to: '/admin/worker/warehouse'  },
-            ]
-          },
-          {
-            action: 'insert_chart',
-            title: 'Маркетинг',
-            items: [
-              { title: 'Акции', to: '/admin/marketing/stock'  },
-              { title: 'Email рассылки', to: '/admin/marketing/email'  },
-            ]
-          },
-          {
-            action: 'book',
-            title: 'Отчеты',
-            items: [
-              { title: 'Заказы', to: '/admin/report/order'  },
-              { title: 'Возвраты', to: '/admin/report/return'  },
-              { title: 'Покупатели', to: '/admin/report/buyer' },
-            ]
-          },
-          {
-            action: 'message',
-            title: 'SEO',
-            items: [
-              { title: 'GoGetTop', to: 'url'  },
-              { title: 'SeoPult', to: 'url' },
-              { title: 'Blogun', to: 'url' },
-
-            ]
-          },
-          {
-            action: 'settings',
-            title: 'Инструменты',
-            items: [
-              { title: 'Загрузить',  to: '/admin/tools/download' },
-              { title: 'Backup/Rollback',  to: '/admin/tools/db' },
-            ]
-          }
-        ],
+         items: [],
         menu_items: [
-            { name: 'Статистика', icon: 'insert_chart', to: '/admin/statistic' },
-            { name: 'Корзина', icon: 'shopping_cart', to: '/admin/cart' },
-            { name: 'Заказы', icon: 'attach_money', to: '/admin/orders' },
-            { name: 'Оплата', icon: 'credit_card', to: '/admin/pay' },
-            { name: 'Каталог', icon: 'style', to: '/admin/catalog' },
-            { name: 'Товары', icon: 'mdi-package-variant', to: '/admin/products' },
-            { name: 'Сотрудники', icon: 'mdi-worker', to: '/admin/workesr' },
-            { name: 'Пользователи', icon: 'mdi-account-supervisor', to: '/admin/clients' },
-            { name: 'Страницы', icon: 'mdi-newspaper', to: '/admin/pages' },
-            { name: 'Отзывы', icon: 'mdi-newspaper', to: '/admin/pages' },
+            { name: 'Статистика', icon: 'insert_chart', to: '/admin' },
+            { name: 'Заказы', icon: 'credit_card', to: '/admin/orders' },
+            { name: 'Пользователи', icon: 'people', to: '/admin/clients' },
+            { name: 'Каталог', icon: 'style', to: '/admin/catalog/category' },
+            { name: 'Продукты', icon: 'view_list', to: '/admin/catalog/product' },
+            { name: 'Добавить страницу', icon: 'add_to_photos', to: '/admin/information/add' },
+            { name: 'Редактировать страницу', icon: 'edit', to: '/admin/information/edit' },
+            { name: 'Удалить страницу', icon: 'delete', to: '/admin/information/delete' },
+            { name: 'Вернуться на сайт', icon: 'reply', to: '/' },            
         ],
         information_items:[],
         preloader:true,
@@ -237,6 +158,7 @@ import Preloader from '~/components/loaders/Preloader.vue'
                     }                    
                     this.preloader = false;
                   });
+         
     },
     methods:{
       async getCatalog(){

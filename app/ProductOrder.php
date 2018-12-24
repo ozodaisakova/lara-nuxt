@@ -24,6 +24,6 @@ class ProductOrder extends Model
     }
 
     public function productorderlist(){
-        return $this->belongsTo('App\ProductOrderList');
+        return $this->hasMany('App\ProductOrderList');
     }
 }

@@ -1,5 +1,9 @@
 <template>
 <div>
+  <v-breadcrumbs
+      class="hidden-sm-and-down"
+      v-bind:items="for_breadcrumd">                        
+  </v-breadcrumbs>
   <v-layout v-if="preloader==true"  align-center   style="height:80vh;">
         <v-flex d-flex>
             <div class="text-xs-center">
@@ -11,10 +15,21 @@
             </div>
         </v-flex>
     </v-layout>
-    <any-error v-else-if="error==true" v-bind:error_code="error_code" v-bind:error_name="error_name"></any-error>
-<v-stepper xs12 sm12 md12 v-else v-model="e6"  >
-  <v-stepper-header>
-    <v-stepper-step 
+    <any-error v-if="error==true" v-bind:error_code="error_code" v-bind:error_name="error_name"></any-error>
+  <div v-else>
+    <div v-if="products.length==[]">
+      <v-card class="pa-2 text-xs-center">
+        <v-alert :value="true"
+      type="error">Ваша корзина пустая</v-alert>
+      </v-card>
+    </div>
+    <v-stepper xs12 sm12 md12 v-else  v-model="e6"  >
+      <div v-if="hidden_header==false">
+        <span></span>
+      </div>
+  <v-stepper-header v-else>
+    <v-stepper-step  
+      
         :complete="e6 > 1" 
         step="1"
         >
@@ -54,15 +69,14 @@
             <b>Итоговая цена:</b> 
             {{total_price}}тг
             </p> 
-      <v-btn color="primary" @click="e6 = 2">Следующий</v-btn>
-      <v-btn flat router to="/">ОТМЕНИТЬ</v-btn>
+      <v-btn color="primary" @click="e6 = 2">Оформить заказ</v-btn>
     </v-stepper-content>       
     <v-stepper-content step="2">
           <v-layout row wrap>
            <v-flex xs12 sm3 md3 d-flex ></v-flex>
-        <v-flex xs12 sm6 md6 class="pt-3">
-          <v-card class="my-5">
-             <div class="text-xs-center pt-5"><v-icon x-large >edit</v-icon></div>
+        <v-flex xs12 sm6 md6 class="">
+          <v-card class="my-1 ">
+             <div class="text-xs-center py-4 "><v-icon x-large >edit</v-icon></div>
         <v-form  v-model="valid" class="pa-2" lazy-validation ref="form">
             <v-text-field
             v-model="client_name"       
@@ -201,9 +215,9 @@
       <v-btn flat @click="e6=2">Предыдущий</v-btn>
     </v-stepper-content>    
     <v-stepper-content step="4">
-      <v-card color="grey lighten-5" class="mb-5">
-        <v-layout row wrap>
-          <v-flex xs12 sm6 md6>
+      <v-card color="" class="mb-5">
+        <v-layout row wrap class="pa-4">
+          <v-flex xs12 sm12 md12>
             <v-alert
               type="success"
               :value="success_pay">
@@ -215,26 +229,22 @@
               Что-то пошло не так, попробуйте позднее!
             </v-alert>
           </v-flex>          
-          <v-flex xs12 sm6 md6>
-            <v-btn
-              @click="exportToPDF"
-              color="primary">
-              Экспорт 
-              <v-icon>mdi-download</v-icon>
-            </v-btn>
-          </v-flex>          
+                   
         </v-layout>
       </v-card>
-      <v-btn color="primary" @click="e6 = 1">Следующий</v-btn>
-      <v-btn flat  @click="e6=3">Предыдущий</v-btn>
     </v-stepper-content>
   </v-stepper>
+  </div>
 </div>  
 </template>
 <script>
 import CartProduct from '~/components/CartProduct.vue'
 import AnyError from '~/components/errors/AnyError.vue'
   export default {
+    head:{
+      title: 'Ваша корзина'
+
+    },
     data () {
       return {
         e6: 1,
@@ -244,7 +254,7 @@ import AnyError from '~/components/errors/AnyError.vue'
         product:[],
         images:[],
         colors:[{"color":"Нет вариантов"}],
-        preloader: false,
+        preloader: true,
         item: 1,
         valid: false,
         cardValid: false,   
@@ -312,7 +322,16 @@ import AnyError from '~/components/errors/AnyError.vue'
         ],
         success_pay: false,
         error_pay: false,
-        products: []
+        products: [],
+        order_products:[],
+        for_breadcrumd: [
+          {href: "/", text:"Главная"},
+          {href: "/cart", text:"Ваша корзина", disabled: true},
+          ],
+        cart_products: [],
+        user: null,
+        user_id: 0,
+        hidden_header: false
       }
     },
     components:{
@@ -324,26 +343,62 @@ import AnyError from '~/components/errors/AnyError.vue'
             var str = this.$store.getters.total_price.toString();
             return str.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
         }
-
+    },
+    watch:{
+      e6: function(val){
+        if(val!=1) this.hidden_header=true;
+        else this.hidden_header=false;
+      }
     },
     mounted(){
+        if(localStorage.user) {
+          this.user = JSON.parse(localStorage.getItem('user'));
+          this.user_id = this.user.id;
+        }
+        this.$store.state.total_price=0;
         var arr =[];
-        arr= JSON.parse(localStorage.getItem('cart_product_list'));
+        arr= JSON.parse(localStorage.getItem('cart_product_list'));        
+        if(arr.length>0){
+          arr.forEach(element => {
+            var product = {
+              id: element,
+              count: 1,
+              color: 'Не выбрано'
+            }
+            this.cart_products.push(product);            
+          });
+        }
+        console.log("CART PRODUCTS", this.cart_products);
         Promise.resolve(this.getProduct(arr))
             .then(response=>{
-                this.products = response;                
-                console.log("RESPONSE",response);
+                this.products = response;  
+                this.preloader = false;              
             })
             .catch(error=>{
-                console.log("ERROR", error)
+              this.error_code="---"
+              this.error_name="Потерено соединение с сервером";
+              this.error=true;
+              this.preloader=false;
             })
         
     },
     methods:{
         onVals(data){
-            console.log("CHILD", data);            
+          this.cart_products.forEach(i=>{
+            if(data.id == i.id){
+              i.color = data.color;
+              i.count = data.count
+            }
+            console.log("CART PRODUCTS CHANGE ",  this.cart_products)
+          })                     
         },
         deleteItem(data){
+          this.cart_products.forEach((product, index)=>{
+            if(product.id==data.id){
+              this.cart_products.splice(index, 1);
+              console.log("CART PRODUCTS DELETE ",  this.cart_products)
+            }
+          })
             var price = data.price*data.count;
             this.$store.dispatch('decrement_price', price);
             this.products= this.products.filter(function(value, index, arr){
@@ -356,19 +411,53 @@ import AnyError from '~/components/errors/AnyError.vue'
                 return ele != value;
             });
         },
-      exportToPDF(){
-        var columns = [
-          {title: "Name", dataKey: "name" },
-          {title: "Description", dataKey: "description"}
-        ];
-      },
-      doPay(){
-        if(this.$refs.payload.validate()){
-          
-        }else{
-          this.dialog=true;
-        }
-      },
+        exportToPDF(){
+          var columns = [
+            {title: "Name", dataKey: "name" },
+            {title: "Description", dataKey: "description"}
+          ];
+        },
+        doPay(){
+          if(this.$refs.payload.validate()){
+            this.$axios.$post(this.$store.getters.base_url+'productorder',{
+              'user_id': this.user_id,
+              'cart_products': this.cart_products,
+              'user_name': this.client_name,
+              'user_phone': this.client_phone,
+              'user_email': this.client_email,
+              'user_adress': this.client_adress,
+              'total_price': this.$store.getters.total_price
+            })
+            .then(response=>{
+             this.success_pay=true;
+             var str = '[]';
+                       this.e6=4;
+             localStorage.setItem('cart_product_list', str);
+             localStorage.setItem('cart_product_count', '0');
+             this.$store.state.cart_count =0;
+           })
+           .catch(e=>{
+              this.e6=4;
+             this.error_pay = true;
+             if(e.response.status==400){
+               this.error_code='400';
+               this.error_name="ОШИБКА ЗАПРОСА!";
+               this.error=true;
+             }else if(e.response.status==404){
+               this.error_code="404";
+               this.error_name="СТРАНИЦА НЕ НАЙДЕНО!";
+               this.error=true;
+             }else{
+               this.error_code=e.response.status;
+               this.error_name="ОШИБКА СЕРВЕРА!";
+               this.error=true;
+             }
+           });
+            
+          }else{
+            this.dialog=true;
+          }
+        },
        checkForm(){
          if(this.$refs.form.validate()){
            this.e6=3;

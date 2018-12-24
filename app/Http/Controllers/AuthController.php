@@ -44,6 +44,16 @@ class AuthController extends Controller
         return response()->json(['error' => 'Unauthorized'], 401);
     }
    
+    public function update(Request $r){
+        $user = User::find($r->id);
+        $user->name = $r->name;
+        $user->email = $r->email;
+        $user->password = bcrypt($r->password);
+        $user->save();
+        return "OK";
+    }
+
+
     public function me()
     {
         return response()->json($this->guard()->user());

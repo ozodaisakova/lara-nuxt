@@ -11,6 +11,7 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+    Route::put('update', 'AuthController@update');
 });
 
 Route::group(['prefix'=>'v1', 'namespace'=>'Admin' ], function(){
@@ -45,5 +46,6 @@ Route::group(['prefix'=>'v1', 'namespace'=>'Admin' ], function(){
 
     //Тапсырыстар (заказы) маршруттары
     Route::get('/productorder', 'ProductOrderController@all'); // Барлық тапсырыстар тізімін шығару
+    Route::get('/productorder', 'ProductOrderController@show'); // Барлық тапсырыстар тізімін шығару
     Route::post('/productorder', 'ProductOrderController@store'); // Тапсырысты деректер қорына қосу
 });

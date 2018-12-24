@@ -6,5 +6,7 @@ export default function (context) {
 
 	if(currentUser && isLoggedIn){
 		context.redirect('/user/profile');
+	}else{
+		// context.redirect('/auth/signin');
 	}
 }

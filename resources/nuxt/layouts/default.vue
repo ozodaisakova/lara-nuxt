@@ -195,11 +195,10 @@ import {mapState, mapGetters} from "vuex"
         menu_guest: [
           { icon: 'person', title: "Вход", to: '/auth/signin' },
           { icon: 'edit', title: 'Регистрация ', to: '/auth/signup' },
-        ],
-        
+        ],        
         menu_user: [
           { title: 'Профиль', to: '/user/profile' },
-          { title: 'Заказы', to: '/user/order' },
+          { title: 'История', to: '/user/order' },
         ],
 
       }
@@ -264,7 +263,7 @@ import {mapState, mapGetters} from "vuex"
       },
       	getSignOut(){
 				this.$store.dispatch('getSignOut').then(()=>{
-					this.$router.push({path:'/auth/signin'});
+					this.$router.push({path:'/'});
 				});
 			},
     }  

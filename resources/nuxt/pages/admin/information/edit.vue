@@ -126,7 +126,7 @@ export default{
     data(){
         return{
             for_breadcrumd: [
-                {href: "/admin/panel", text:"Главная"},
+                {href: "/admin/", text:"Главная"},
                 {href: "/admin/information/edit", text: "Редактирование информационных страниц", disabled: true}
             ], 
             headers:[

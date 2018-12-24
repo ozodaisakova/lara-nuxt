@@ -90,7 +90,7 @@ export default {
         return{
             editor: "Напишите текст",
             for_breadcrumd: [
-                {href: "/admin/panel", text:"Главная"},
+                {href: "/admin/", text:"Главная"},
                 {href: "/admin/information/edit", text: "Создание информационных страниц", disabled: true}
             ], 
             editHidden: true,
