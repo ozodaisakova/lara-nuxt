@@ -84,22 +84,7 @@
           </v-btn>      
       <v-toolbar-title v-text="title" class="hidden-sm-and-down"></v-toolbar-title> 
       <v-spacer></v-spacer>
-      <v-tooltip bottom>
-      <v-btn
-        slot="activator"
-        icon>
-      <v-icon>keyboard_backspace</v-icon>
-      </v-btn>
-      <span>Покинуть панель администратора</span>
-    </v-tooltip>
-      <v-tooltip bottom>
-      <v-btn
-        slot="activator"
-        icon>
-      <v-icon>exit_to_app</v-icon>
-      </v-btn>
-      <span>Выход</span>
-    </v-tooltip>
+      
     </v-toolbar>
     <v-content>
       <v-container class="main-back">
@@ -123,7 +108,7 @@ import Preloader from '~/components/loaders/Preloader.vue'
         menu_items: [
             { name: 'Статистика', icon: 'insert_chart', to: '/admin' },
             { name: 'Заказы', icon: 'credit_card', to: '/admin/orders' },
-            { name: 'Пользователи', icon: 'people', to: '/admin/clients' },
+            // { name: 'Пользователи', icon: 'people', to: '/admin/clients' },
             { name: 'Каталог', icon: 'style', to: '/admin/catalog/category' },
             { name: 'Продукты', icon: 'view_list', to: '/admin/catalog/product' },
             { name: 'Добавить страницу', icon: 'add_to_photos', to: '/admin/information/add' },

@@ -11,13 +11,17 @@ use Illuminate\Http\Response;
 class ProductOrderController extends Controller
 {
     public function all(){
-        return response()->json(ProductOrder::all(), 200);
+        return response()->json(ProductOrder::with('productorderlist')->get(), 200);
     }
+
+   
+
     public function show(Request $r){
         $id = $r->id;
         $order = ProductOrder::where('user_id', $id)->with('productorderlist')->get();
         return $order;
     }
+
     
     public function store(Request $r){
         // return $r->cart_products;

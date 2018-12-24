@@ -35,6 +35,7 @@ import VTooltip from 'vuetify/es5/components/VTooltip'
 import VDataTable from 'vuetify/es5/components/VDataTable'
 import VSwitch from 'vuetify/es5/components/VSwitch'
 import Vuetify from 'vuetify/es5/components/Vuetify'
+import VDataIterator from 'vuetify/es5/components/VDataIterator'
 import VMenu from 'vuetify/es5/components/VMenu'
 
 Vue.use(Vuetify, {
@@ -44,6 +45,7 @@ Vue.use(Vuetify, {
     VBreadcrumbs,
     VDialog,
     VCombobox,
+    VDataIterator,
     VDataTable,
     VForm,
     VTextarea,

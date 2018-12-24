@@ -10,27 +10,29 @@ const _6bb684ee = () => import('..\\resources\\nuxt\\pages\\cart.vue' /* webpack
 const _8e8b0762 = () => import('..\\resources\\nuxt\\pages\\information\\index.vue' /* webpackChunkName: "pages_information_index" */).then(m => m.default || m)
 const _2bed1bc2 = () => import('..\\resources\\nuxt\\pages\\catalog\\index.vue' /* webpackChunkName: "pages_catalog_index" */).then(m => m.default || m)
 const _4f036d2c = () => import('..\\resources\\nuxt\\pages\\product\\index.vue' /* webpackChunkName: "pages_product_index" */).then(m => m.default || m)
-const _15f039df = () => import('..\\resources\\nuxt\\pages\\auth\\contact.vue' /* webpackChunkName: "pages_auth_contact" */).then(m => m.default || m)
+const _099332ca = () => import('..\\resources\\nuxt\\pages\\admin\\orders.vue' /* webpackChunkName: "pages_admin_orders" */).then(m => m.default || m)
 const _499b646d = () => import('..\\resources\\nuxt\\pages\\user\\signout.vue' /* webpackChunkName: "pages_user_signout" */).then(m => m.default || m)
 const _3707f5a5 = () => import('..\\resources\\nuxt\\pages\\user\\profile.vue' /* webpackChunkName: "pages_user_profile" */).then(m => m.default || m)
-const _1bede3a9 = () => import('..\\resources\\nuxt\\pages\\auth\\signup.vue' /* webpackChunkName: "pages_auth_signup" */).then(m => m.default || m)
 const _3d15c1ca = () => import('..\\resources\\nuxt\\pages\\user\\order.vue' /* webpackChunkName: "pages_user_order" */).then(m => m.default || m)
-const _86967ee4 = () => import('..\\resources\\nuxt\\pages\\auth\\register\\index.vue' /* webpackChunkName: "pages_auth_register_index" */).then(m => m.default || m)
 const _07578d33 = () => import('..\\resources\\nuxt\\pages\\auth\\signin.vue' /* webpackChunkName: "pages_auth_signin" */).then(m => m.default || m)
-const _099332ca = () => import('..\\resources\\nuxt\\pages\\admin\\orders.vue' /* webpackChunkName: "pages_admin_orders" */).then(m => m.default || m)
-const _3d48f91a = () => import('..\\resources\\nuxt\\pages\\auth\\login\\index.vue' /* webpackChunkName: "pages_auth_login_index" */).then(m => m.default || m)
 const _4904a08f = () => import('..\\resources\\nuxt\\pages\\auth\\dashboard\\index.vue' /* webpackChunkName: "pages_auth_dashboard_index" */).then(m => m.default || m)
 const _6379c67c = () => import('..\\resources\\nuxt\\pages\\admin\\clients.vue' /* webpackChunkName: "pages_admin_clients" */).then(m => m.default || m)
+const _1bede3a9 = () => import('..\\resources\\nuxt\\pages\\auth\\signup.vue' /* webpackChunkName: "pages_auth_signup" */).then(m => m.default || m)
+const _15f039df = () => import('..\\resources\\nuxt\\pages\\auth\\contact.vue' /* webpackChunkName: "pages_auth_contact" */).then(m => m.default || m)
+const _3d48f91a = () => import('..\\resources\\nuxt\\pages\\auth\\login\\index.vue' /* webpackChunkName: "pages_auth_login_index" */).then(m => m.default || m)
+const _86967ee4 = () => import('..\\resources\\nuxt\\pages\\auth\\register\\index.vue' /* webpackChunkName: "pages_auth_register_index" */).then(m => m.default || m)
 const _43f67f84 = () => import('..\\resources\\nuxt\\pages\\user\\edit.vue' /* webpackChunkName: "pages_user_edit" */).then(m => m.default || m)
-const _3b706af0 = () => import('..\\resources\\nuxt\\pages\\admin\\information\\edit.vue' /* webpackChunkName: "pages_admin_information_edit" */).then(m => m.default || m)
-const _0ce471ab = () => import('..\\resources\\nuxt\\pages\\admin\\information\\add.vue' /* webpackChunkName: "pages_admin_information_add" */).then(m => m.default || m)
-const _99119bde = () => import('..\\resources\\nuxt\\pages\\admin\\catalog\\category.vue' /* webpackChunkName: "pages_admin_catalog_category" */).then(m => m.default || m)
-const _40a4632c = () => import('..\\resources\\nuxt\\pages\\admin\\catalog\\product.vue' /* webpackChunkName: "pages_admin_catalog_product" */).then(m => m.default || m)
 const _55862e91 = () => import('..\\resources\\nuxt\\pages\\admin\\information\\delete.vue' /* webpackChunkName: "pages_admin_information_delete" */).then(m => m.default || m)
-const _3c3326aa = () => import('..\\resources\\nuxt\\pages\\catalog\\_id.vue' /* webpackChunkName: "pages_catalog__id" */).then(m => m.default || m)
-const _83bbf946 = () => import('..\\resources\\nuxt\\pages\\buy\\_id.vue' /* webpackChunkName: "pages_buy__id" */).then(m => m.default || m)
+const _3b706af0 = () => import('..\\resources\\nuxt\\pages\\admin\\information\\edit.vue' /* webpackChunkName: "pages_admin_information_edit" */).then(m => m.default || m)
+const _99119bde = () => import('..\\resources\\nuxt\\pages\\admin\\catalog\\category.vue' /* webpackChunkName: "pages_admin_catalog_category" */).then(m => m.default || m)
+const _0ce471ab = () => import('..\\resources\\nuxt\\pages\\admin\\information\\add.vue' /* webpackChunkName: "pages_admin_information_add" */).then(m => m.default || m)
+const _40a4632c = () => import('..\\resources\\nuxt\\pages\\admin\\catalog\\product.vue' /* webpackChunkName: "pages_admin_catalog_product" */).then(m => m.default || m)
 const _33ed7312 = () => import('..\\resources\\nuxt\\pages\\information\\_id.vue' /* webpackChunkName: "pages_information__id" */).then(m => m.default || m)
+const _3c3326aa = () => import('..\\resources\\nuxt\\pages\\catalog\\_id.vue' /* webpackChunkName: "pages_catalog__id" */).then(m => m.default || m)
 const _86ba6ad8 = () => import('..\\resources\\nuxt\\pages\\product\\_id.vue' /* webpackChunkName: "pages_product__id" */).then(m => m.default || m)
+const _83bbf946 = () => import('..\\resources\\nuxt\\pages\\buy\\_id.vue' /* webpackChunkName: "pages_buy__id" */).then(m => m.default || m)
+const _4ce04c66 = () => import('..\\resources\\nuxt\\pages\\admin\\order_show\\_id.vue' /* webpackChunkName: "pages_admin_order_show__id" */).then(m => m.default || m)
+const _4886524c = () => import('..\\resources\\nuxt\\pages\\admin\\order_edit\\__id.vue' /* webpackChunkName: "pages_admin_order_edit___id" */).then(m => m.default || m)
 const _403efcb9 = () => import('..\\resources\\nuxt\\pages\\index.vue' /* webpackChunkName: "pages_index" */).then(m => m.default || m)
 
 
@@ -127,9 +129,9 @@ export function createRouter () {
 			name: "product"
 		},
 		{
-			path: "/auth/contact",
-			component: _15f039df,
-			name: "auth-contact"
+			path: "/admin/orders",
+			component: _099332ca,
+			name: "admin-orders"
 		},
 		{
 			path: "/user/signout",
@@ -142,34 +144,14 @@ export function createRouter () {
 			name: "user-profile"
 		},
 		{
-			path: "/auth/signup",
-			component: _1bede3a9,
-			name: "auth-signup"
-		},
-		{
 			path: "/user/order",
 			component: _3d15c1ca,
 			name: "user-order"
 		},
 		{
-			path: "/auth/register",
-			component: _86967ee4,
-			name: "auth-register"
-		},
-		{
 			path: "/auth/signin",
 			component: _07578d33,
 			name: "auth-signin"
-		},
-		{
-			path: "/admin/orders",
-			component: _099332ca,
-			name: "admin-orders"
-		},
-		{
-			path: "/auth/login",
-			component: _3d48f91a,
-			name: "auth-login"
 		},
 		{
 			path: "/auth/dashboard",
@@ -182,29 +164,29 @@ export function createRouter () {
 			name: "admin-clients"
 		},
 		{
+			path: "/auth/signup",
+			component: _1bede3a9,
+			name: "auth-signup"
+		},
+		{
+			path: "/auth/contact",
+			component: _15f039df,
+			name: "auth-contact"
+		},
+		{
+			path: "/auth/login",
+			component: _3d48f91a,
+			name: "auth-login"
+		},
+		{
+			path: "/auth/register",
+			component: _86967ee4,
+			name: "auth-register"
+		},
+		{
 			path: "/user/edit",
 			component: _43f67f84,
 			name: "user-edit"
-		},
-		{
-			path: "/admin/information/edit",
-			component: _3b706af0,
-			name: "admin-information-edit"
-		},
-		{
-			path: "/admin/information/add",
-			component: _0ce471ab,
-			name: "admin-information-add"
-		},
-		{
-			path: "/admin/catalog/category",
-			component: _99119bde,
-			name: "admin-catalog-category"
-		},
-		{
-			path: "/admin/catalog/product",
-			component: _40a4632c,
-			name: "admin-catalog-product"
 		},
 		{
 			path: "/admin/information/delete",
@@ -212,14 +194,24 @@ export function createRouter () {
 			name: "admin-information-delete"
 		},
 		{
-			path: "/catalog/:id",
-			component: _3c3326aa,
-			name: "catalog-id"
+			path: "/admin/information/edit",
+			component: _3b706af0,
+			name: "admin-information-edit"
 		},
 		{
-			path: "/buy/:id",
-			component: _83bbf946,
-			name: "buy-id"
+			path: "/admin/catalog/category",
+			component: _99119bde,
+			name: "admin-catalog-category"
+		},
+		{
+			path: "/admin/information/add",
+			component: _0ce471ab,
+			name: "admin-information-add"
+		},
+		{
+			path: "/admin/catalog/product",
+			component: _40a4632c,
+			name: "admin-catalog-product"
 		},
 		{
 			path: "/information/:id",
@@ -227,9 +219,29 @@ export function createRouter () {
 			name: "information-id"
 		},
 		{
+			path: "/catalog/:id",
+			component: _3c3326aa,
+			name: "catalog-id"
+		},
+		{
 			path: "/product/:id",
 			component: _86ba6ad8,
 			name: "product-id"
+		},
+		{
+			path: "/buy/:id",
+			component: _83bbf946,
+			name: "buy-id"
+		},
+		{
+			path: "/admin/order:show/:id?",
+			component: _4ce04c66,
+			name: "admin-ordershow-id"
+		},
+		{
+			path: "/admin/order:edit/:_id?",
+			component: _4886524c,
+			name: "admin-orderedit-_id"
 		},
 		{
 			path: "/",

@@ -45,7 +45,8 @@ Route::group(['prefix'=>'v1', 'namespace'=>'Admin' ], function(){
     Route::delete('/information/{information}', 'InformationController@destroy'); // Деректер қорынан ақпарат парақшасын жою
 
     //Тапсырыстар (заказы) маршруттары
-    Route::get('/productorder', 'ProductOrderController@all'); // Барлық тапсырыстар тізімін шығару
+    Route::get('/productorders', 'ProductOrderController@all'); // Барлық тапсырыстар тізімін шығару
+    Route::get('/productorder/{productorder}', 'ProductOrderController@one');
     Route::get('/productorder', 'ProductOrderController@show'); // Барлық тапсырыстар тізімін шығару
     Route::post('/productorder', 'ProductOrderController@store'); // Тапсырысты деректер қорына қосу
 });

@@ -90,7 +90,6 @@
                 dark>
             <v-tab ripple>Описание</v-tab>
             <v-tab ripple>Характеристики</v-tab>            
-            <v-tab ripple>Отзывы</v-tab>
             <v-tab-item>
                 <v-card flat>
                 <v-card-text>
